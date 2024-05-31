@@ -3,6 +3,7 @@ import { ComplexNavbar } from "./ALL_CPR/components/shared_components/ProfileMen
 import "./App.css";
 import { Outlet } from "react-router-dom";
 import Loading from "./ALL_CPR/components/shared_components/Loading";
+import { FooterWithSitemap } from "./ALL_CPR/components/shared_components/FooterWithSitemap";
 
 function App() {
   const [load, setLoad] = useState(true);
@@ -15,7 +16,10 @@ function App() {
   return (
     <>
       <ComplexNavbar></ComplexNavbar>
-      {load ? <Loading /> : <Outlet></Outlet>}
+      <div className="min-h-[calc(100vh-80px)]">
+        {load ? <Loading /> : <Outlet></Outlet>}
+      </div>
+      <FooterWithSitemap></FooterWithSitemap>
     </>
   );
 }
