@@ -9,20 +9,13 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
-import {
-  LoadCanvasTemplateNoReload,
-  loadCaptchaEnginge,
-  validateCaptcha,
-} from "react-simple-captcha";
-import toast from "react-hot-toast";
+
+// import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function Login() {
   // const { createUser } = useAuth();
-  useEffect(() => {
-    loadCaptchaEnginge(6);
-  }, []);
+
   const {
     handleSubmit,
     register,
@@ -30,11 +23,11 @@ export default function Login() {
   } = useForm();
 
   function onSubmit(values) {
-    const { email, password, captcha } = values;
-    const isValid = validateCaptcha(captcha);
-    console.log(values, isValid);
-    if (!isValid) return toast.error("Please validate captcha");
-    console.log(values, isValid);
+    const { email, password } = values;
+    // const isValid = validateCaptcha(captcha);
+    // console.log(values, isValid);
+    // if (!isValid) return toast.error("Please validate captcha");
+    // console.log(values, isValid);
   }
 
   return (
@@ -51,6 +44,7 @@ export default function Login() {
             <FormLabel htmlFor="email">Email</FormLabel>
             <Input
               id="email"
+              type="email"
               placeholder="email"
               {...register("email", {
                 required: "Email is required",
@@ -64,6 +58,7 @@ export default function Login() {
             <FormLabel htmlFor="password">Password</FormLabel>
             <Input
               id="password"
+              type="password"
               placeholder="password"
               {...register("password", {
                 required: "Password is required",
@@ -75,7 +70,7 @@ export default function Login() {
             </FormErrorMessage>
           </FormControl>
         </div>
-        <Box className="flex flex-col gap-5 items-center justify-center p-10">
+        {/* <Box className="flex flex-col gap-5 items-center justify-center p-10">
           <div>
             <LoadCanvasTemplateNoReload />
           </div>
@@ -85,7 +80,7 @@ export default function Login() {
             {...register("captcha")}
             placeholder="Enter captcha"
           />
-        </Box>
+        </Box> */}
         <Flex alignItems="center" justifyContent="space-between" padding="10px">
           <p>
             Do&apos;t have any account?{" "}
@@ -98,7 +93,7 @@ export default function Login() {
             colorScheme="teal"
             isLoading={isSubmitting}
             type="submit">
-            Submit
+            Login
           </Button>
         </Flex>
       </Box>
