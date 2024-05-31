@@ -22,8 +22,8 @@ import {
   PowerIcon,
   Bars2Icon,
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
-
+import { Link, NavLink } from "react-router-dom";
+import defaultUser from "../../../assets/user.png";
 // profile menu component
 const profileMenuItems = [
   {
@@ -39,7 +39,7 @@ const profileMenuItems = [
     icon: InboxArrowDownIcon,
   },
   {
-    label: "Help",
+    label: "Dashboard",
     icon: LifebuoyIcon,
   },
   {
@@ -52,6 +52,9 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+  const handleRoute = (e) => {
+    console.log(e);
+  };
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -65,7 +68,7 @@ function ProfileMenu() {
             size="sm"
             alt="tania andrew"
             className="border border-gray-900 p-0.5"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            src={defaultUser}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -81,7 +84,10 @@ function ProfileMenu() {
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={() => {
+                closeMenu();
+                handleRoute(label);
+              }}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
@@ -127,19 +133,26 @@ const navListItems = [
 
 function NavList() {
   return (
-    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
+    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 md:flex-row md:items-center">
       {navListItems.map(({ label, icon, link }) => (
         <Typography
           key={label}
           variant="small"
-          color="gray"
           className="font-medium text-blue-gray-500">
           <MenuItem className="flex items-center gap-2 lg:rounded-full">
             {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
-            <Link to={link} className="text-gray-900">
+            <NavLink
+              to={link}
+              style={({ isActive, isPending, isTransitioning }) => {
+                return {
+                  fontWeight: isActive ? "bold" : "",
+                  color: isPending ? "red" : "black",
+                  viewTransitionName: isTransitioning ? "slide" : "",
+                };
+              }}>
               {" "}
               {label}
-            </Link>
+            </NavLink>
           </MenuItem>
         </Typography>
       ))}
@@ -148,6 +161,7 @@ function NavList() {
 }
 
 export function ComplexNavbar() {
+  const { user } = {};
   const [isNavOpen, setIsNavOpen] = React.useState(false);
 
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
@@ -160,7 +174,7 @@ export function ComplexNavbar() {
   }, []);
 
   return (
-    <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
+    <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full">
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
@@ -168,7 +182,7 @@ export function ComplexNavbar() {
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium">
           Build Nest
         </Typography>
-        <div className="hidden lg:block">
+        <div className="hidden md:block">
           <NavList />
         </div>
         <IconButton
@@ -176,14 +190,18 @@ export function ComplexNavbar() {
           color="blue-gray"
           variant="text"
           onClick={toggleIsNavOpen}
-          className="ml-auto mr-2 lg:hidden">
+          className="ml-auto mr-2 md:hidden">
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
-
-        <Button size="sm" variant="text">
-          <span>Log In</span>
-        </Button>
-        <ProfileMenu />
+        <div>
+          {!user ? (
+            <Button size="sm" variant="text">
+              <Link to="/login">Log In</Link>
+            </Button>
+          ) : (
+            <ProfileMenu />
+          )}
+        </div>
       </div>
       <Collapse open={isNavOpen} className="overflow-scroll">
         <NavList />
