@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import auth from "../../others/firebase/firebase.config";
+import { Toaster } from "react-hot-toast";
 
 export const AuthContext = createContext(null);
 
@@ -31,7 +32,12 @@ export default function AuthProvider({ children }) {
     setLoading,
     createUser,
   };
-  return <AuthContext.Provider value={$info}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={$info}>
+      {children}
+      <Toaster position="top-right"></Toaster>
+    </AuthContext.Provider>
+  );
 }
 AuthProvider.propTypes = {
   children: PropTypes.node,
