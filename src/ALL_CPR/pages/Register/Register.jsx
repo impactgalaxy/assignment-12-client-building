@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import useAuth from "../../../others/hooks/useAuth";
 import uploadImage from "../../../others/helpers/imageUploader";
+import sendMail from "../../../others/helpers/sendMail";
 
 export default function Register() {
   const { createUser, updateNamePhoto } = useAuth();
@@ -48,6 +49,8 @@ export default function Register() {
       if (res.user.uid) {
         await updateNamePhoto(name, image_Url);
         toast.success("Registration successful");
+        const result = await sendMail(email);
+        console.log(result);
       }
     } catch (error) {
       let errMsg = error.code.split("/")[1];

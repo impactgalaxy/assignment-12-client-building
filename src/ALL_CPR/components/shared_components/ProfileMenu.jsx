@@ -58,11 +58,6 @@ function ProfileMenu() {
 
   const closeMenu = () => setIsMenuOpen(false);
   const handleRoute = (label) => {
-    /**My Profile
- Edit Profile
- Inbox
- Dashboard
- Sign Out */
     switch (label) {
       case "My Profile": {
         break;
@@ -111,7 +106,12 @@ function ProfileMenu() {
           />
         </Button>
       </MenuHandler>
-      <MenuList className="p-1">
+      <MenuList className="p-3">
+        <MenuItem>
+          <Typography className="text-center py-4 ">
+            {user?.displayName}
+          </Typography>
+        </MenuItem>
         {profileMenuItems.map(({ label, icon }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
