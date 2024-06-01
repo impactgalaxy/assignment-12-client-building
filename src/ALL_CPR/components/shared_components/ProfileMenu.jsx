@@ -24,6 +24,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link, NavLink } from "react-router-dom";
 import defaultUser from "../../../assets/user.png";
+import logo from "../../../assets/logo.png";
+import { Flex, Text } from "@chakra-ui/react";
 // profile menu component
 const profileMenuItems = [
   {
@@ -176,12 +178,21 @@ export function ComplexNavbar() {
   return (
     <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full">
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
-        <Typography
-          as="a"
-          href="#"
-          className="mr-4 ml-2 cursor-pointer py-1.5 font-medium">
-          Build Nest
-        </Typography>
+        <Flex alignItems="center" gap="12px" justifyContent="center">
+          <img
+            src={logo}
+            alt=""
+            className="h-10 w-10 object-cover block m-auto"
+          />
+          <Text
+            bgGradient="linear(to-l, #7928CA, #FF0080)"
+            bgClip="text"
+            fontSize="2xl"
+            textAlign="center"
+            fontWeight="extrabold">
+            Build Nest
+          </Text>
+        </Flex>
         <div className="hidden md:block">
           <NavList />
         </div>

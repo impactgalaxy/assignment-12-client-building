@@ -12,6 +12,7 @@ import {
 
 // import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
   // const { createUser } = useAuth();
@@ -24,10 +25,6 @@ export default function Login() {
 
   function onSubmit(values) {
     const { email, password } = values;
-    // const isValid = validateCaptcha(captcha);
-    // console.log(values, isValid);
-    // if (!isValid) return toast.error("Please validate captcha");
-    // console.log(values, isValid);
   }
 
   return (
@@ -70,17 +67,7 @@ export default function Login() {
             </FormErrorMessage>
           </FormControl>
         </div>
-        {/* <Box className="flex flex-col gap-5 items-center justify-center p-10">
-          <div>
-            <LoadCanvasTemplateNoReload />
-          </div>
-          <input
-            className="input input-bordered text-black"
-            type="text"
-            {...register("captcha")}
-            placeholder="Enter captcha"
-          />
-        </Box> */}
+
         <Flex alignItems="center" justifyContent="space-between" padding="10px">
           <p>
             Do&apos;t have any account?{" "}
@@ -96,6 +83,17 @@ export default function Login() {
             Login
           </Button>
         </Flex>
+        <Box p="20px 5px" textAlign="center">
+          <Button
+            size="md"
+            height="48px"
+            width="200px"
+            border="2px"
+            borderColor="green.500">
+            <FaGoogle className="mr-3"></FaGoogle>
+            Google
+          </Button>
+        </Box>
       </Box>
     </form>
   );
