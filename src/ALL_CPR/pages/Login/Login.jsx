@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import useAuth from "../../../others/hooks/useAuth";
 import {
   FormErrorMessage,
   FormLabel,
@@ -10,12 +11,12 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-// import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 export default function Login() {
-  // const { createUser } = useAuth();
+  const { loginUser, googleLogin, loading, setLoading } = useAuth();
 
   const {
     handleSubmit,
@@ -23,17 +24,43 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  function onSubmit(values) {
+  const onSubmit = async (values) => {
     const { email, password } = values;
-  }
+    try {
+      const res = await loginUser(email, password);
+      console.log(res.user);
+    } catch (error) {
+      let errMsg = error.code.split("/")[1];
+      toast.error(errMsg);
+    }
+  };
+  console.log(loading);
+
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await googleLogin();
+      console.log(res.user);
+      // toast.success("Login successful");
+      setLoading(false);
+    } catch (error) {
+      let errMsg = error.code.split("/")[1];
+      toast.error(errMsg);
+      setLoading(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box
         className="bg-blue-gray-900 md:w-1/2 mx-auto text-white"
         rounded="50px 0 50px 0"
-        padding="20px 5px">
-        <Text align="center" padding="15px" fontSize="25px" fontWeight="900">
+        padding="50px 5px">
+        <Text
+          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgClip="text"
+          fontSize="3xl"
+          textAlign="center"
+          fontWeight="extrabold">
           Login
         </Text>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3">
@@ -85,12 +112,15 @@ export default function Login() {
         </Flex>
         <Box p="20px 5px" textAlign="center">
           <Button
+            onClick={handleGoogleLogin}
+            isLoading={loading}
+            type="button"
             size="md"
             height="48px"
             width="200px"
             border="2px"
-            borderColor="green.500">
-            <FaGoogle className="mr-3"></FaGoogle>
+            borderColor="green.500"
+            leftIcon={<FaGoogle />}>
             Google
           </Button>
         </Box>

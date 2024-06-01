@@ -17,9 +17,11 @@ import {
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import useAuth from "../../../others/hooks/useAuth";
+import uploadImage from "../../../others/helpers/imageUploader";
 
 export default function Register() {
-  // const { createUser } = useAuth();
+  const { createUser, updateNamePhoto } = useAuth();
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -29,13 +31,29 @@ export default function Register() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  function onSubmit(values) {
-    const { email, password, captcha } = values;
+  const onSubmit = async (values) => {
+    const { name, email, password, captcha, files } = values;
+    let imageFile = files[0];
+    if (!imageFile) {
+      imageFile = "";
+    }
+    const image_Url = await uploadImage(imageFile);
+    console.log(image_Url);
+
     const isValid = validateCaptcha(captcha);
-    console.log(values, isValid);
     if (!isValid) return toast.error("Please validate captcha");
-    console.log(values, isValid);
-  }
+
+    try {
+      const res = await createUser(email, password);
+      if (res.user.uid) {
+        await updateNamePhoto(name, image_Url);
+        toast.success("Registration successful");
+      }
+    } catch (error) {
+      let errMsg = error.code.split("/")[1];
+      toast.error(errMsg);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,9 +92,6 @@ export default function Register() {
                 />
               </div>
             </fieldset>
-            <FormErrorMessage>
-              {errors.password && errors.password.message}
-            </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.email}>
             <FormLabel htmlFor="email">Email</FormLabel>
@@ -100,6 +115,7 @@ export default function Register() {
               placeholder="password"
               {...register("password", {
                 required: "Password is required",
+                minLength: { value: 6, message: "Minimum length should be 6" },
               })}
             />
             <FormErrorMessage>
@@ -107,7 +123,7 @@ export default function Register() {
             </FormErrorMessage>
           </FormControl>
         </div>
-        <Box className="flex flex-col gap-5 items-center justify-center p-10">
+        <Box className="flex flex-col gap-5 items-center justify-center p-8">
           <div className="border">
             <LoadCanvasTemplateNoReload />
           </div>
@@ -130,7 +146,7 @@ export default function Register() {
             colorScheme="teal"
             isLoading={isSubmitting}
             type="submit">
-            Login
+            Register
           </Button>
         </Flex>
       </Box>

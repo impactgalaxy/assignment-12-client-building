@@ -26,6 +26,8 @@ import { Link, NavLink } from "react-router-dom";
 import defaultUser from "../../../assets/user.png";
 import logo from "../../../assets/logo.png";
 import { Flex, Text } from "@chakra-ui/react";
+import useAuth from "../../../others/hooks/useAuth";
+import toast from "react-hot-toast";
 // profile menu component
 const profileMenuItems = [
   {
@@ -51,13 +53,42 @@ const profileMenuItems = [
 ];
 
 function ProfileMenu() {
+  const { user, logOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
-  const handleRoute = (e) => {
-    console.log(e);
+  const handleRoute = (label) => {
+    /**My Profile
+ Edit Profile
+ Inbox
+ Dashboard
+ Sign Out */
+    switch (label) {
+      case "My Profile": {
+        break;
+      }
+      case "Edit Profile": {
+        break;
+      }
+      case "Inbox": {
+        break;
+      }
+      case "Dashboard": {
+        break;
+      }
+      case "Sign Out": {
+        logOut()
+          .then(() => {
+            toast.success("Logout successful");
+          })
+          .catch((error) => {
+            let errMsg = error.code.split("/")[1];
+            toast.error(errMsg);
+          });
+        break;
+      }
+    }
   };
-
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -70,7 +101,7 @@ function ProfileMenu() {
             size="sm"
             alt="tania andrew"
             className="border border-gray-900 p-0.5"
-            src={defaultUser}
+            src={user?.photoURL ? user?.photoURL : defaultUser}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -163,7 +194,8 @@ function NavList() {
 }
 
 export function ComplexNavbar() {
-  const { user } = {};
+  const { user } = useAuth();
+
   const [isNavOpen, setIsNavOpen] = React.useState(false);
 
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
