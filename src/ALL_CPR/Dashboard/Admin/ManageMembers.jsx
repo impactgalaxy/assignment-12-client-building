@@ -9,7 +9,8 @@ export default function ManageMembers() {
   console.log(totalMember);
   if (isLoading) return <Loading></Loading>;
   return (
-    <Card className="h-full w-full overflow-scroll">
+    <Card className="h-full w-full overflow-scroll py-5">
+      <h1>Manage members</h1>
       <table className="w-full min-w-max table-auto text-left border">
         <thead>
           <tr>
