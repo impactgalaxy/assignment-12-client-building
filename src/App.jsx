@@ -10,11 +10,8 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    window.onload = () => {
-      setLoad(false);
-    };
+    setLoad(false);
   }, [location?.pathname]);
-  console.log(location?.pathname, load);
 
   return (
     <>

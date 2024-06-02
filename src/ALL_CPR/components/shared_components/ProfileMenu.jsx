@@ -162,7 +162,7 @@ const navListItems = [
   {
     label: "Apartment",
     icon: CubeTransparentIcon,
-    link: "/apartment",
+    link: "/apartments",
   },
   {
     label: "Docs",

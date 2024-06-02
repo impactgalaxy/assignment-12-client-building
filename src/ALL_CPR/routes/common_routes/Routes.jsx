@@ -7,6 +7,7 @@ import Login from "../../pages/Login/Login";
 import Dashboard from "../../Dashboard/Dashboard";
 import DashHome from "../../Dashboard/dashboard_components/DashHome";
 import MyProfile from "../../Dashboard/dashboard_components/MyProfile";
+import Apartments from "../../pages/apartments/Apartments";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/apartments",
+        element: <Apartments></Apartments>,
       },
     ],
   },

@@ -26,11 +26,8 @@ export default function Dashboard() {
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
-    window.onload = () => {
-      setLoad(false);
-    };
+    setLoad(false);
   }, [location?.pathname]);
-  console.log(location?.pathname, load);
   const style = ({ isActive, isPending, isTransitioning }) => {
     return {
       border: isActive ? "2px solid red" : "",

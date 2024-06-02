@@ -1,8 +1,11 @@
 import axios from "axios";
 
-const axiosCommon = axios.create({
-  baseURL: import.meta.VITE_API_URL,
+const commonApi = axios.create({
+  baseURL: import.meta.env.VITE_API_URL, // Replace with your API base URL
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 export default function useAxiosCommon() {
-  return axiosCommon;
+  return commonApi;
 }
