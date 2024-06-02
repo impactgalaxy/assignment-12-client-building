@@ -11,11 +11,13 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 export default function Login() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { loginUser, googleLogin, loading, setLoading } = useAuth();
 
   const {
@@ -24,24 +26,28 @@ export default function Login() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (values) => {
+  const handleLogin = async (values) => {
     const { email, password } = values;
     try {
       const res = await loginUser(email, password);
-      console.log(res.user);
+      if (res.user.uid) {
+        toast.success("Login successful");
+        navigate(location?.state ? location?.state : "/");
+      }
     } catch (error) {
       let errMsg = error.code.split("/")[1];
       toast.error(errMsg);
     }
   };
-  console.log(loading);
 
   const handleGoogleLogin = async () => {
     try {
       const res = await googleLogin();
-      console.log(res.user);
-      // toast.success("Login successful");
-      setLoading(false);
+      if (res.user.uid) {
+        toast.success("Login successful");
+        setLoading(false);
+        navigate(location?.state ? location?.state : "/");
+      }
     } catch (error) {
       let errMsg = error.code.split("/")[1];
       toast.error(errMsg);
@@ -50,7 +56,7 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleLogin)}>
       <Box
         className="bg-blue-gray-900 md:w-1/2 mx-auto text-white"
         rounded="50px 0 50px 0"

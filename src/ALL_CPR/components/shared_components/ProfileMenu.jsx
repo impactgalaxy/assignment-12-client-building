@@ -33,22 +33,27 @@ const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
+    path: "myProfile",
   },
   {
     label: "Edit Profile",
     icon: Cog6ToothIcon,
+    path: "editProfile",
   },
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
+    path: "inbox",
   },
   {
     label: "Dashboard",
     icon: LifebuoyIcon,
+    path: "dashboard",
   },
   {
     label: "Sign Out",
     icon: PowerIcon,
+    path: "/",
   },
 ];
 
@@ -69,6 +74,7 @@ function ProfileMenu() {
         break;
       }
       case "Dashboard": {
+        <Link to="/dashboard"></Link>;
         break;
       }
       case "Sign Out": {
@@ -112,7 +118,7 @@ function ProfileMenu() {
             {user?.displayName}
           </Typography>
         </MenuItem>
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon, path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
@@ -130,13 +136,14 @@ function ProfileMenu() {
                 className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
                 strokeWidth: 2,
               })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? "red" : "inherit"}>
-                {label}
-              </Typography>
+              <Link to={path}>
+                <Typography
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}>
+                  {label}
+                </Typography>
+              </Link>
             </MenuItem>
           );
         })}

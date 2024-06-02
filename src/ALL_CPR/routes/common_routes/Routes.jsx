@@ -6,6 +6,7 @@ import Register from "../../pages/Register/Register";
 import Login from "../../pages/Login/Login";
 import Dashboard from "../../Dashboard/Dashboard";
 import DashHome from "../../Dashboard/dashboard_components/DashHome";
+import MyProfile from "../../Dashboard/dashboard_components/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <DashHome />,
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
       },
     ],
   },
