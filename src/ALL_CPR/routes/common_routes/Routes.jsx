@@ -8,6 +8,7 @@ import Dashboard from "../../Dashboard/Dashboard";
 import DashHome from "../../Dashboard/dashboard_components/DashHome";
 import MyProfile from "../../Dashboard/dashboard_components/MyProfile";
 import Apartments from "../../pages/apartments/Apartments";
+import ManageMembers from "../../Dashboard/Admin/ManageMembers";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <MyProfile />,
+      },
+      {
+        path: "manage-members",
+        element: <ManageMembers />,
       },
     ],
   },

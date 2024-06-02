@@ -170,7 +170,7 @@ export default function Dashboard() {
           </Button>
         </Box>
       </section>
-      <div className="flex-1 border min-h-screen relative">
+      <div className="flex-1 border min-h-screen relative overflow-x-auto">
         {drawer && (
           <div
             className="absolute top-0 left-50 p-2 z-10 cursor-pointer"

@@ -11,31 +11,65 @@ import {
 import Marquee from "react-fast-marquee";
 import useUserCollection from "../../../others/hooks/useUserCollection";
 import Loading from "../../components/shared_components/Loading";
-import useAuth from "../../../others/hooks/useAuth";
+import { Link } from "react-router-dom";
 
 export default function DashHome() {
-  const { user } = useAuth();
-  const { users, isLoading } = useUserCollection();
-
-  const totalMember = users.filter((member) => member.role === "member");
-  const generalUser = users.filter((member) => member.role === "user");
-  const admin = users.find((admin) => admin.uid === user?.uid);
-  console.log(admin);
+  const { users, isLoading, totalMember, generalUser, role } =
+    useUserCollection();
 
   if (isLoading) return <Loading></Loading>;
+
+  console.log(role, "admin");
+
   return (
     <Box bg="base.200" p="15px">
       <Marquee speed={100}>
         <span className="font-bold text-3xl">You are most welcome</span>
       </Marquee>
       <div className="">
-        <h1 className="text-center text-2xl lg:text-5xl">
-          This is for only general user landing page
-        </h1>
+        {role && role?.role === "user" && (
+          <Card
+            align="center"
+            bg="linear-gradient(#1F3857, #34495c)"
+            color="white">
+            <CardHeader>
+              <Heading size="md"> This is only for user</Heading>
+            </CardHeader>
+            <CardBody>
+              <Text>There are many link for browser</Text>
+            </CardBody>
+            <CardFooter>
+              <Link to="/" className="btn">
+                Back to home
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
+        {role && role?.role === "member" && (
+          <Card
+            align="center"
+            bg="linear-gradient(#1F3857, #34495c)"
+            color="white">
+            <CardHeader>
+              <Heading size="md"> This is only for member</Heading>
+            </CardHeader>
+            <CardBody>
+              <Text>There are many link for browser</Text>
+            </CardBody>
+            <CardFooter>
+              <Link to="/" className="btn">
+                Back to home
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
         <div className="flex items-center gap-3 justify-center flex-col md:flex-row flex-wrap">
-          {
+          {role && role?.role === "admin" && (
             <>
-              <Card align="center">
+              <Card
+                align="center"
+                bg="linear-gradient(#1F3857, #34495c)"
+                color="white">
                 <CardHeader>
                   <Heading size="md"> Total User</Heading>
                 </CardHeader>
@@ -48,7 +82,10 @@ export default function DashHome() {
                   <Button colorScheme="blue">{users.length}</Button>
                 </CardFooter>
               </Card>
-              <Card align="center">
+              <Card
+                align="center"
+                bg="linear-gradient(#1F3857, #34495c)"
+                color="white">
                 <CardHeader>
                   <Heading size="md"> Total Member</Heading>
                 </CardHeader>
@@ -65,7 +102,10 @@ export default function DashHome() {
                   </Button>
                 </CardFooter>
               </Card>
-              <Card align="center">
+              <Card
+                align="center"
+                bg="linear-gradient(#1F3857, #34495c)"
+                color="white">
                 <CardHeader>
                   <Heading size="md"> Total general User</Heading>
                 </CardHeader>
@@ -79,7 +119,7 @@ export default function DashHome() {
                 </CardFooter>
               </Card>
             </>
-          }
+          )}
         </div>
       </div>
     </Box>
