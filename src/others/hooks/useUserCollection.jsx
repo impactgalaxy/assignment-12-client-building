@@ -16,7 +16,7 @@ export default function useUserCollection() {
   });
   const totalMember = users.filter((member) => member.role === "member");
   const generalUser = users.filter((member) => member.role === "user");
-  const role = users.find((data) => data.uid === user?.uid);
+  const userRole = users.find((data) => data.uid === user?.uid);
 
-  return { users, isLoading, totalMember, generalUser, role };
+  return { users, isLoading, totalMember, generalUser, userRole };
 }

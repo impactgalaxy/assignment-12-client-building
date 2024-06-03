@@ -14,12 +14,10 @@ import Loading from "../../components/shared_components/Loading";
 import { Link } from "react-router-dom";
 
 export default function DashHome() {
-  const { users, isLoading, totalMember, generalUser, role } =
+  const { users, isLoading, totalMember, generalUser, userRole } =
     useUserCollection();
 
   if (isLoading) return <Loading></Loading>;
-
-  console.log(role, "admin");
 
   return (
     <Box bg="base.200" p="15px">
@@ -27,7 +25,7 @@ export default function DashHome() {
         <span className="font-bold text-3xl">You are most welcome</span>
       </Marquee>
       <div className="">
-        {role && role?.role === "user" && (
+        {userRole && userRole?.role === "user" && (
           <Card
             align="center"
             bg="linear-gradient(#1F3857, #34495c)"
@@ -45,7 +43,7 @@ export default function DashHome() {
             </CardFooter>
           </Card>
         )}
-        {role && role?.role === "member" && (
+        {userRole && userRole?.role === "member" && (
           <Card
             align="center"
             bg="linear-gradient(#1F3857, #34495c)"
@@ -64,7 +62,7 @@ export default function DashHome() {
           </Card>
         )}
         <div className="flex items-center gap-3 justify-center flex-col md:flex-row flex-wrap">
-          {role && role?.role === "admin" && (
+          {userRole && userRole?.role === "admin" && (
             <>
               <Card
                 align="center"

@@ -9,6 +9,8 @@ import DashHome from "../../Dashboard/dashboard_components/DashHome";
 import MyProfile from "../../Dashboard/dashboard_components/MyProfile";
 import Apartments from "../../pages/apartments/Apartments";
 import ManageMembers from "../../Dashboard/Admin/ManageMembers";
+import PrivateRoute from "../private_routes/PrivateRoute";
+import AdminRoute from "../private_routes/AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +38,11 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
@@ -48,7 +54,11 @@ const router = createBrowserRouter([
       },
       {
         path: "manage-members",
-        element: <ManageMembers />,
+        element: (
+          <AdminRoute>
+            <ManageMembers />
+          </AdminRoute>
+        ),
       },
     ],
   },

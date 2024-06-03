@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import useAuth from "../../others/hooks/useAuth";
@@ -18,24 +18,42 @@ import { FcSettings } from "react-icons/fc";
 import { RiSecurePaymentFill } from "react-icons/ri";
 import { IoIosMenu, IoIosPeople } from "react-icons/io";
 import { RiCoupon2Line } from "react-icons/ri";
+import useUserCollection from "../../others/hooks/useUserCollection";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { userRole, isLoading } = useUserCollection();
   const [drawer, setDrawer] = useState(false);
   const [block, setBlock] = useState(false);
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const [load, setLoad] = useState(true);
-  console.log(block);
 
   useEffect(() => {
     setLoad(false);
   }, [location?.pathname]);
+
+  if (isLoading) return <Loading></Loading>;
+
   const style = ({ isActive, isPending, isTransitioning }) => {
     return {
       border: isActive ? "2px solid red" : "",
       color: isPending ? "red" : "black",
       viewTransitionName: isTransitioning ? "slide" : "",
     };
+  };
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logout successful");
+        // navigate("/");
+        window.location.reload();
+      })
+      .catch((error) => {
+        let errMsg = error.code.split("/")[1];
+        toast.error(errMsg);
+      });
   };
   return (
     <section className="flex flex-col lg:flex-row">
@@ -44,7 +62,7 @@ export default function Dashboard() {
           drawer
             ? "-translate-x-full w-0 transition-all"
             : "transition-all w-full md:max-w-72"
-        } shadow-2xl border  lg:max-h-screen relative p-4 flex flex-col overflow-y-auto`}>
+        } shadow-2xl border  h-screen relative p-4 flex flex-col overflow-y-auto`}>
         <div
           className="absolute top-0 right-0 p-2 z-10 cursor-pointer"
           title="Hide side bar">
@@ -90,79 +108,89 @@ export default function Dashboard() {
               </Button>
             </NavLink>
             {/* Admin nav link start*/}
-            <NavLink to="manage-members" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                className="text-red-700"
-                leftIcon={<IoIosPeople />}>
-                Manage Members
-              </Button>
-            </NavLink>
-            <NavLink to="make-announcement" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                className="text-red-700"
-                leftIcon={<TfiAnnouncement />}>
-                Make Announcement
-              </Button>
-            </NavLink>
-            <NavLink to="agreement-request" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                className="text-red-700"
-                leftIcon={<FaRegQuestionCircle />}>
-                Agreement Request
-              </Button>
-            </NavLink>
-            <NavLink to="manage-coupons" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                className="text-red-700"
-                leftIcon={<RiCoupon2Line />}>
-                Manage Coupons
-              </Button>
-            </NavLink>
+            {userRole?.role === "admin" && (
+              <div>
+                <NavLink to="manage-members" style={style}>
+                  <Button
+                    justifyContent="flex-start"
+                    w="100%"
+                    height="48px"
+                    className="text-red-700"
+                    leftIcon={<IoIosPeople />}>
+                    Manage Members
+                  </Button>
+                </NavLink>
+                <NavLink to="make-announcement" style={style}>
+                  <Button
+                    justifyContent="flex-start"
+                    w="100%"
+                    height="48px"
+                    className="text-red-700"
+                    leftIcon={<TfiAnnouncement />}>
+                    Make Announcement
+                  </Button>
+                </NavLink>
+                <NavLink to="agreement-request" style={style}>
+                  <Button
+                    justifyContent="flex-start"
+                    w="100%"
+                    height="48px"
+                    className="text-red-700"
+                    leftIcon={<FaRegQuestionCircle />}>
+                    Agreement Request
+                  </Button>
+                </NavLink>
+                <NavLink to="manage-coupons" style={style}>
+                  <Button
+                    justifyContent="flex-start"
+                    w="100%"
+                    height="48px"
+                    className="text-red-700"
+                    leftIcon={<RiCoupon2Line />}>
+                    Manage Coupons
+                  </Button>
+                </NavLink>
+              </div>
+            )}
 
             {/* Admin nav link end */}
 
             {/* member nav link start*/}
-            <NavLink to="make-payment" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                leftIcon={<RiSecurePaymentFill />}>
-                Make Payment
-              </Button>
-            </NavLink>
-            <NavLink to="payment-history" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                leftIcon={<FaHistory />}>
-                Payment History
-              </Button>
-            </NavLink>
+            {userRole?.role === "member" && (
+              <div>
+                <NavLink to="make-payment" style={style}>
+                  <Button
+                    justifyContent="flex-start"
+                    w="100%"
+                    height="48px"
+                    leftIcon={<RiSecurePaymentFill />}>
+                    Make Payment
+                  </Button>
+                </NavLink>
+                <NavLink to="payment-history" style={style}>
+                  <Button
+                    justifyContent="flex-start"
+                    w="100%"
+                    height="48px"
+                    leftIcon={<FaHistory />}>
+                    Payment History
+                  </Button>
+                </NavLink>
+              </div>
+            )}
             {/* member nav link end */}
 
-            <NavLink to="announcements" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                leftIcon={<TfiAnnouncement />}>
-                Announcements
-              </Button>
-            </NavLink>
+            {userRole?.role === "admin" || (
+              <NavLink to="announcements" style={style}>
+                <Button
+                  justifyContent="flex-start"
+                  w="100%"
+                  height="48px"
+                  leftIcon={<TfiAnnouncement />}>
+                  Announcements
+                </Button>
+              </NavLink>
+            )}
           </Box>
           <Box>
             <Button
@@ -176,6 +204,7 @@ export default function Dashboard() {
               justifyContent="flex-start"
               w="100%"
               height="48px"
+              onClick={handleLogout}
               leftIcon={<VscSignOut />}>
               Logout
             </Button>
