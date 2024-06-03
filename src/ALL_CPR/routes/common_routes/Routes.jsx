@@ -12,6 +12,7 @@ import ManageMembers from "../../Dashboard/Admin/ManageMembers";
 import PrivateRoute from "../private_routes/PrivateRoute";
 import AdminRoute from "../private_routes/AdminRoute";
 import MakeAnnouncement from "../../Dashboard/Admin/MakeAnnouncement";
+import Announcements from "../../Dashboard/dashboard_components/Announcements";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <MyProfile />,
+      },
+      {
+        path: "announcements",
+        element: <Announcements />,
       },
       {
         path: "manage-members",

@@ -17,7 +17,6 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { formatDistance } from "date-fns";
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
 import { useState } from "react";
@@ -35,13 +34,6 @@ export default function MakeAnnouncement() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleAnnouncement = async (values) => {
-    // const result = formatDistance(
-    //   new Date("Mon, 03 Jun 2024 07:06:40 GMT"),
-    //   new Date(),
-    //   {
-    //     addSuffix: true,
-    //   }
-    // );
     values.create_at = new Date().toUTCString();
     values.target_audience = {
       role: value == "1" ? "All" : value == "2" ? "Members" : "Users",

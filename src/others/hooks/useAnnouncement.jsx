@@ -1,15 +1,16 @@
-import { useQuery } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "./axios/useAxiosCommon";
 
 export default function useAnnouncement() {
   const commonApi = useAxiosCommon();
-  const getAnnouncement = async () => {
+  const fetchAnnouncement = async () => {
     const response = await commonApi.get("/announcements");
+    console.log(response);
     return response.data;
   };
   const { data: announcements = [], isLoading } = useQuery({
-    queryKey: ["announcements"],
-    queryFn: getAnnouncement,
+    queryKey: ["announcement"],
+    queryFn: fetchAnnouncement,
   });
   console.log(announcements);
   return { announcements, isLoading };
