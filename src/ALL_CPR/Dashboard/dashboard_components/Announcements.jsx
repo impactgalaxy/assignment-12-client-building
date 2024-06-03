@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import useAnnouncement from "../../../others/hooks/useAnnouncement";
 import Loading from "../../components/shared_components/Loading";
 import { formatDistance } from "date-fns";
@@ -9,12 +9,13 @@ export default function Announcements() {
   console.log(announcements);
   return (
     <div className="space-y-5 p-5">
+      <h1 className="text-2xl font-bold">Announcement from admin</h1>
       {announcements.map((announce) => (
         <Box
           key={announce._id}
-          className="lg:w-3/4 mx-auto text-white p-4"
+          className="lg:w-3/4 mx-auto text-white p-4 rounded-lg"
           bg="linear-gradient(#1F3857, #34495c)">
-          <Flex justifyContent="space-between">
+          <Box className="flex flex-col lg:flex-row gap-4">
             <Text
               bgGradient="linear(to-l, #7928CA, #FF0080)"
               bgClip="text"
@@ -28,7 +29,7 @@ export default function Announcements() {
                 addSuffix: true,
               })}
             </Text>
-          </Flex>
+          </Box>
           <Box className="py-6 px-2">{announce.message}</Box>
         </Box>
       ))}

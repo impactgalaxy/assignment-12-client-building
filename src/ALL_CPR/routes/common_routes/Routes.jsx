@@ -13,6 +13,7 @@ import PrivateRoute from "../private_routes/PrivateRoute";
 import AdminRoute from "../private_routes/AdminRoute";
 import MakeAnnouncement from "../../Dashboard/Admin/MakeAnnouncement";
 import Announcements from "../../Dashboard/dashboard_components/Announcements";
+import OlderAnnouncement from "../../Dashboard/Admin/OlderAnnouncement";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
             <MakeAnnouncement />
           </AdminRoute>
         ),
+      },
+      {
+        path: "older-announcement",
+        element: <OlderAnnouncement />,
       },
     ],
   },

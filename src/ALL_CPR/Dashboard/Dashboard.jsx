@@ -62,7 +62,7 @@ export default function Dashboard() {
           drawer
             ? "-translate-x-full w-0 transition-all"
             : "transition-all w-full md:max-w-72"
-        } shadow-2xl border  h-screen relative p-4 flex flex-col overflow-y-auto`}>
+        } shadow-2xl  lg:h-screen relative p-4 flex flex-col overflow-y-auto`}>
         <div
           className="absolute top-0 right-0 p-2 z-10 cursor-pointer"
           title="Hide side bar">

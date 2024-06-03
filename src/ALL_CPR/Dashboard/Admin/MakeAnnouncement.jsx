@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function MakeAnnouncement() {
   const [value, setValue] = useState("1");
@@ -38,8 +39,6 @@ export default function MakeAnnouncement() {
     values.target_audience = {
       role: value == "1" ? "All" : value == "2" ? "Members" : "Users",
     };
-    console.log(values);
-
     try {
       const response = await secureApi.post("/announcements", values);
       if (response.data.insertedId) {
@@ -54,9 +53,9 @@ export default function MakeAnnouncement() {
   return (
     <>
       <div className="lg:w-1/2 mx-auto py-10 text-center">
-        <h1>Message form admin</h1>
+        <h1>Make new message to member and user</h1>
         <div className="p-10 flex items-center justify-between">
-          <Button>See older </Button>
+          <Link to="/dashboard/older-announcement">See older </Link>
           <Button onClick={onOpen}>Make new</Button>
         </div>
       </div>
