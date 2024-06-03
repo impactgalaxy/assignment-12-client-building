@@ -11,6 +11,7 @@ import Apartments from "../../pages/apartments/Apartments";
 import ManageMembers from "../../Dashboard/Admin/ManageMembers";
 import PrivateRoute from "../private_routes/PrivateRoute";
 import AdminRoute from "../private_routes/AdminRoute";
+import MakeAnnouncement from "../../Dashboard/Admin/MakeAnnouncement";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <ManageMembers />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "make-announcement",
+        element: (
+          <AdminRoute>
+            <MakeAnnouncement />
           </AdminRoute>
         ),
       },

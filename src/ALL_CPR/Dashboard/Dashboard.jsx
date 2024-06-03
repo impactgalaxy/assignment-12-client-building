@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import useAuth from "../../others/hooks/useAuth";
@@ -23,7 +23,7 @@ import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { userRole, isLoading } = useUserCollection();
   const [drawer, setDrawer] = useState(false);
   const [block, setBlock] = useState(false);
