@@ -114,9 +114,7 @@ function ProfileMenu() {
       </MenuHandler>
       <MenuList className="p-3">
         <MenuItem>
-          <Typography className="text-center py-4 ">
-            {user?.displayName}
-          </Typography>
+          <p className="text-center py-4 ">{user?.displayName}</p>
         </MenuItem>
         {profileMenuItems.map(({ label, icon, path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;

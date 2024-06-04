@@ -20,9 +20,11 @@ import { useEffect } from "react";
 import useAuth from "../../../others/hooks/useAuth";
 import uploadImage from "../../../others/helpers/imageUploader";
 import sendMail from "../../../others/helpers/sendMail";
+import useAxiosCommon from "../../../others/hooks/axios/useAxiosCommon";
 
 export default function Register() {
   const { createUser, updateNamePhoto } = useAuth();
+  const commonApi = useAxiosCommon();
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -46,11 +48,25 @@ export default function Register() {
 
     try {
       const res = await createUser(email, password);
+
       if (res.user.uid) {
+        const userDoc = {
+          user_name: name,
+          user_email: email,
+          user_photo: image_Url,
+          uid: res.user.uid,
+          role: "user",
+          registration_time: new Date().toUTCString(),
+        };
         await updateNamePhoto(name, image_Url);
         toast.success("Registration successful");
-        const result = await sendMail(email);
-        console.log(result);
+        // const result = await sendMail(email);
+        // console.log(result);
+        const response = await commonApi.post("/create-users", userDoc);
+        if (response.data.insertedId) {
+          const re = await sendMail(email);
+          console.log(re);
+        }
       }
     } catch (error) {
       let errMsg = error.code.split("/")[1];

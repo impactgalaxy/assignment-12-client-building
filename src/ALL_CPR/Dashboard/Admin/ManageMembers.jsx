@@ -10,7 +10,6 @@ const TABLE_HEAD = ["Name", "Job", "Employed", "Email", "Remove"];
 export default function ManageMembers() {
   const secureApi = useAxiosSecure();
   const { totalMember = [], isLoading, refetch } = useUserCollection();
-  console.log(totalMember);
   if (isLoading) return <Loading></Loading>;
 
   const handleDeleteMember = (id) => {
@@ -32,7 +31,6 @@ export default function ManageMembers() {
               role: "user",
             }
           );
-          console.log(response.data);
           if (response.data.modifiedCount > 0) {
             Swal.fire({
               title: "Deleted!",
@@ -41,13 +39,17 @@ export default function ManageMembers() {
               timer: 1500,
               showConfirmButton: false,
             });
-            refetch();
+            setTimeout(() => refetch(), 1700);
           }
         } catch (error) {
           toast.error(error.message);
         }
       }
     });
+  };
+  // handle send email
+  const handleSendMessage = (email) => {
+    console.log(email);
   };
   return (
     <Card className="h-full w-full overflow-scroll py-5">
@@ -103,14 +105,16 @@ export default function ManageMembers() {
                       {registration_time}
                     </Typography>
                   </td>
-                  <td className={classes}>
+                  <td
+                    className={classes}
+                    onClick={() => handleSendMessage(user_email)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="size-6 cupo">
+                      className="size-6 cupo cursor-pointer">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"

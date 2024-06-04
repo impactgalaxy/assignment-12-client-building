@@ -14,11 +14,16 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import toast from "react-hot-toast";
+import useUserCollection from "../../../others/hooks/useUserCollection";
+import useAxiosCommon from "../../../others/hooks/axios/useAxiosCommon";
+import sendMail from "../../../others/helpers/sendMail";
 
 export default function Login() {
   const location = useLocation();
   const navigate = useNavigate();
   const { loginUser, googleLogin, loading, setLoading } = useAuth();
+  const { users } = useUserCollection();
+  const commonApi = useAxiosCommon();
 
   const {
     handleSubmit,
@@ -44,9 +49,28 @@ export default function Login() {
     try {
       const res = await googleLogin();
       if (res.user.uid) {
+        const findUser = users.find((user) => user.uid === res.user.uid);
+        const userDoc = {
+          user_email: res.user.email,
+          user_name: res.user?.displayName,
+          uid: res.user.uid,
+          role: "user",
+          registration_time: new Date().toUTCString(),
+          user_photo: res.user?.photoURL,
+        };
         toast.success("Login successful");
         setLoading(false);
         navigate(location?.state ? location?.state : "/");
+
+        if (findUser) {
+          return;
+        } else {
+          const response = await commonApi.post("/create-users", userDoc);
+          console.log(response);
+          if (response.data.insertedId) {
+            await sendMail(res.user.email);
+          }
+        }
       }
     } catch (error) {
       let errMsg = error.code.split("/")[1];
