@@ -40,8 +40,6 @@ export default function Register() {
     if (!imageFile) {
       imageFile = "";
     }
-    const image_Url = await uploadImage(imageFile);
-    console.log(image_Url);
 
     const isValid = validateCaptcha(captcha);
     if (!isValid) return toast.error("Please validate captcha");
@@ -50,6 +48,7 @@ export default function Register() {
       const res = await createUser(email, password);
 
       if (res.user.uid) {
+        const image_Url = await uploadImage(imageFile);
         const userDoc = {
           user_name: name,
           user_email: email,

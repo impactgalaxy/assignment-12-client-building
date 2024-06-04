@@ -61,7 +61,7 @@ export default function Dashboard() {
         className={`${
           drawer
             ? "-translate-x-full w-0 transition-all"
-            : "transition-all w-full md:max-w-72"
+            : "transition-all w-full lg:max-w-72"
         } shadow-2xl  lg:h-screen relative p-4 flex flex-col overflow-y-auto`}>
         <div
           className="absolute top-0 right-0 p-2 z-10 cursor-pointer"
@@ -71,7 +71,7 @@ export default function Dashboard() {
             onClick={() => setDrawer(true)}
           />
           <IoIosMenu
-            className="block md:hidden"
+            className="block lg:hidden"
             onClick={() => setBlock(!block)}></IoIosMenu>
         </div>
         <Flex alignItems="center" gap="10px">
@@ -95,7 +95,7 @@ export default function Dashboard() {
           />
           <Text fontWeight="bold">{user?.displayName}</Text>
         </Flex>
-        <div className={`md:block ${block ? "block" : "hidden"}`}>
+        <div className={`lg:block ${block ? "block" : "hidden"}`}>
           <Box className="flex-grow border">
             <NavLink to="my-profile" style={style}>
               <Button
