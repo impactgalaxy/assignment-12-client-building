@@ -10,7 +10,11 @@ export default function useUserCollection() {
     const response = await secureApi.get("/users");
     return response.data;
   };
-  const { data: users = [], isLoading } = useQuery({
+  const {
+    data: users = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["users"],
     queryFn: userCollection,
   });
@@ -18,5 +22,5 @@ export default function useUserCollection() {
   const generalUser = users.filter((member) => member.role === "user");
   const userRole = users.find((data) => data.uid === user?.uid);
 
-  return { users, isLoading, totalMember, generalUser, userRole };
+  return { users, isLoading, totalMember, generalUser, userRole, refetch };
 }

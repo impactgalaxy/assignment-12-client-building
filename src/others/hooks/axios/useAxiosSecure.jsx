@@ -1,12 +1,27 @@
 import axios from "axios";
 import { useEffect } from "react";
 
-const axiosSecure = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true,
-});
 export default function useAxiosSecure() {
+  const axiosSecure = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
   useEffect(() => {
+    // Request interceptor
+    const requestInterceptor = axiosSecure.interceptors.request.use(
+      (config) => {
+        // You can modify the request config before sending the request
+        console.log("Request:", config);
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
     // Response interceptor
     const responseInterceptor = axiosSecure.interceptors.response.use(
       (response) => {
@@ -33,6 +48,7 @@ export default function useAxiosSecure() {
     // Cleanup function
     return () => {
       // Eject response interceptor
+      axiosSecure.interceptors.request.eject(requestInterceptor);
       axiosSecure.interceptors.response.eject(responseInterceptor);
     };
   }, []); // Empty dependency array ensures that this effect runs only once when the component mounts

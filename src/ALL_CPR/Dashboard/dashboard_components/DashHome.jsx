@@ -77,7 +77,7 @@ export default function DashHome() {
                   </Text>
                 </CardBody>
                 <CardFooter>
-                  <Button colorScheme="blue">{users.length}</Button>
+                  <Button colorScheme="blue">{users.length - 1}</Button>
                 </CardFooter>
               </Card>
               <Card
@@ -113,7 +113,11 @@ export default function DashHome() {
                   </Text>
                 </CardBody>
                 <CardFooter>
-                  <Button colorScheme="blue">{generalUser.length}</Button>
+                  <Button colorScheme="blue">
+                    {generalUser.length > 0
+                      ? totalMember.length
+                      : "No user yet"}
+                  </Button>
                 </CardFooter>
               </Card>
             </>

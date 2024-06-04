@@ -1,13 +1,54 @@
 import useUserCollection from "../../../others/hooks/useUserCollection";
 import { Card, Typography } from "@material-tailwind/react";
 import Loading from "../../components/shared_components/Loading";
+import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 const TABLE_HEAD = ["Name", "Job", "Employed", "Email", "Remove"];
 
 export default function ManageMembers() {
-  const { totalMember = [], isLoading } = useUserCollection();
+  const secureApi = useAxiosSecure();
+  const { totalMember = [], isLoading, refetch } = useUserCollection();
   console.log(totalMember);
   if (isLoading) return <Loading></Loading>;
+
+  const handleDeleteMember = (id) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete member!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await secureApi.patch(
+            `http://localhost:5000/delete-member/${id}`,
+            {
+              role: "user",
+            }
+          );
+          console.log(response.data);
+          if (response.data.modifiedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Member deleted successfully",
+              icon: "success",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+            refetch();
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    });
+  };
   return (
     <Card className="h-full w-full overflow-scroll py-5">
       <h1>Manage members</h1>
@@ -30,7 +71,7 @@ export default function ManageMembers() {
         </thead>
         <tbody>
           {totalMember.map(
-            ({ user_email, user_name, registration_time }, index) => {
+            ({ user_email, user_name, registration_time, _id }, index) => {
               const isLast = index === totalMember.length - 1;
               const classes = isLast
                 ? "p-4"
@@ -77,7 +118,9 @@ export default function ManageMembers() {
                       />
                     </svg>
                   </td>
-                  <td className={classes}>
+                  <td
+                    className={classes}
+                    onClick={() => handleDeleteMember(_id)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"

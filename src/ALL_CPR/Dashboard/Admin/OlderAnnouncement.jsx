@@ -12,7 +12,6 @@ export default function OlderAnnouncement() {
 
   if (isLoading) return <Loading></Loading>;
   const handleDelete = (id) => {
-    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
