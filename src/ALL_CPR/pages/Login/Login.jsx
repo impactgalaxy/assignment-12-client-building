@@ -17,8 +17,10 @@ import toast from "react-hot-toast";
 import useUserCollection from "../../../others/hooks/useUserCollection";
 import useAxiosCommon from "../../../others/hooks/axios/useAxiosCommon";
 import sendMail from "../../../others/helpers/sendMail";
+import Swal from "sweetalert2";
 
 export default function Login() {
+  const { user, logOut } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const { loginUser, googleLogin, loading, setLoading } = useAuth();
@@ -32,6 +34,28 @@ export default function Login() {
   } = useForm();
 
   const handleLogin = async (values) => {
+    if (user) {
+      Swal.fire({
+        title: "You have already Logged in!",
+        text: "Please logout first to again login",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes logout",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          logOut()
+            .then(() => {
+              toast.success("Logout successful");
+            })
+            .error((error) => {
+              toast.error(error.code.split("/")[1]);
+            });
+        }
+      });
+      return;
+    }
     const { email, password } = values;
     try {
       const res = await loginUser(email, password);
@@ -46,6 +70,28 @@ export default function Login() {
   };
 
   const handleGoogleLogin = async () => {
+    if (user) {
+      Swal.fire({
+        title: "You have already Logged in!",
+        text: "Please logout first to again login",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes logout",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          logOut()
+            .then(() => {
+              toast.success("Logout successful");
+            })
+            .error((error) => {
+              toast.error(error.code.split("/")[1]);
+            });
+        }
+      });
+      return;
+    }
     try {
       const res = await googleLogin();
       if (res.user.uid) {

@@ -12,17 +12,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 export default function Apartment({ apartment }) {
-  const {
-    image,
-    floor_no,
-    block_name,
-    apartment_no,
-    rent,
-    description,
-    title,
-  } = apartment || {};
+  const { image, floor_no, block_name, apartment_no, rent, description, _id } =
+    apartment || {};
   return (
     <>
       <Card maxW="sm">
@@ -34,11 +28,11 @@ export default function Apartment({ apartment }) {
             className="h-80 w-full object-cover"
           />
           <Stack mt="6" spacing="3">
-            <Heading size="md">{title}</Heading>
-            <Text>{description}</Text>
+            <Heading size="md">{description}</Heading>
+
             <Box>
               <Text fontWeight="semibold" color="gray.500">
-                Block name: {block_name}
+                Block: {block_name}
               </Text>
               <Text fontWeight="semibold" color="gray.500">
                 Floor number: {floor_no}
@@ -48,7 +42,7 @@ export default function Apartment({ apartment }) {
               </Text>
             </Box>
             <Text color="blue.600" fontSize="2xl">
-              $ {rent}
+              ${rent} per month
             </Text>
           </Stack>
         </CardBody>
@@ -56,10 +50,7 @@ export default function Apartment({ apartment }) {
         <CardFooter>
           <ButtonGroup spacing="2">
             <Button variant="solid" colorScheme="blue">
-              Agreement
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Add to cart
+              <Link to={`/apartment-agreement/${_id}`}>Agreement</Link>
             </Button>
           </ButtonGroup>
         </CardFooter>

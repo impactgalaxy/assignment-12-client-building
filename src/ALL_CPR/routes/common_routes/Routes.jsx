@@ -14,6 +14,7 @@ import AdminRoute from "../private_routes/AdminRoute";
 import MakeAnnouncement from "../../Dashboard/Admin/MakeAnnouncement";
 import Announcements from "../../Dashboard/dashboard_components/Announcements";
 import OlderAnnouncement from "../../Dashboard/Admin/OlderAnnouncement";
+import ApartmentAgreement from "../../components/apartment/ApartmentAgreement";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/apartments",
         element: <Apartments />,
+      },
+      {
+        path: "/apartment-agreement/:id",
+        element: <ApartmentAgreement />,
       },
     ],
   },
