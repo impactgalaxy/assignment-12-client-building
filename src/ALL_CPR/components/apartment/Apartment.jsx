@@ -13,10 +13,20 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Apartment({ apartment }) {
-  const { image, floor_no, block_name, apartment_no, rent, description, _id } =
-    apartment || {};
+  const {
+    image,
+    floor_no,
+    block_name,
+    apartment_no,
+    rent,
+    description,
+    _id,
+    apartment_booked,
+  } = apartment || {};
+  console.log(apartment_booked, _id);
   return (
     <>
       <Card maxW="sm">
@@ -49,9 +59,24 @@ export default function Apartment({ apartment }) {
         <Divider />
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue">
-              <Link to={`/apartment-agreement/${_id}`}>Agreement</Link>
-            </Button>
+            {apartment_booked && apartment_booked === "booked" ? (
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  Swal.fire({
+                    title: "Apartment Booked",
+                    text: "Please try another apartment",
+                    icon: "error",
+                    showConfirmButton: true,
+                  });
+                }}>
+                Already Booked
+              </Button>
+            ) : (
+              <Button variant="solid" colorScheme="blue">
+                <Link to={`/apartment-agreement/${_id}`}>Agreement</Link>
+              </Button>
+            )}
           </ButtonGroup>
         </CardFooter>
       </Card>
