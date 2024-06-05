@@ -6,7 +6,6 @@ import {
   Input,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -53,18 +52,23 @@ export default function MakeAnnouncement() {
   return (
     <>
       <div className="lg:w-1/2 mx-auto py-10 text-center">
-        <h1>Make new message to member and user</h1>
-        <div className="p-10 flex items-center justify-between">
-          <Link to="/dashboard/older-announcement">See older </Link>
-          <Button onClick={onOpen}>Make new</Button>
+        <h1 className="text-2xl md:text-3xl">
+          Make new message to member and user
+        </h1>
+        <div className="py-20 px-6 flex items-center justify-between">
+          <Link to="/dashboard/older-announcement" className="btn btn-outline">
+            See older{" "}
+          </Link>
+          <Button onClick={onOpen} colorScheme="blue">
+            Make new
+          </Button>
         </div>
       </div>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Make new announcement</ModalHeader>
-          <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit(handleAnnouncement)}>
               <FormControl>

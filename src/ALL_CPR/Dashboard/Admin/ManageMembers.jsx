@@ -5,7 +5,7 @@ import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
-const TABLE_HEAD = ["Name", "Job", "Employed", "Email", "Remove"];
+const TABLE_HEAD = ["Name", "Email", "Membership Date", "Send Mail", ""];
 
 export default function ManageMembers() {
   const secureApi = useAxiosSecure();
@@ -13,15 +13,13 @@ export default function ManageMembers() {
   if (isLoading) return <Loading></Loading>;
 
   const handleDeleteMember = (id) => {
-    console.log(id);
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete member!",
+      confirmButtonText: "Yes, remove membership!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -124,6 +122,7 @@ export default function ManageMembers() {
                   </td>
                   <td
                     className={classes}
+                    title="Remove membership"
                     onClick={() => handleDeleteMember(_id)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

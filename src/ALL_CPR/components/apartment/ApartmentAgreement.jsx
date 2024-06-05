@@ -27,7 +27,7 @@ export default function ApartmentAgreement() {
   const commonApi = useAxiosCommon();
 
   useEffect(() => {
-    onOpen();
+    setTimeout(() => onOpen(), 2500);
   }, []);
   const fetchAgreementData = async () => {
     const response = await commonApi.get(`/apartment/${id}`);
@@ -54,8 +54,10 @@ export default function ApartmentAgreement() {
     const agreementInfo = {
       contractor_name: user?.displayName,
       contractor_email: user?.email,
-      floor_num: floor_no,
-      apartMent_num: apartment_no,
+      contractor_uid: user?.uid,
+      block_name,
+      floor_no,
+      apartment_no,
       pay: rent,
       request_time: new Date().toUTCString(),
       status: "Pending",
@@ -64,9 +66,14 @@ export default function ApartmentAgreement() {
 
     try {
       const response = await commonApi.post(
-        "contracted-apartment",
+        `/agreement-apartment?uid=${user?.uid}`,
         agreementInfo
       );
+      if (response.data.message) {
+        setLoading(false);
+        onClose();
+        return toast.error(response.data.message);
+      }
       if (response.data.insertedId) {
         setLoading(false);
         onClose();
@@ -82,7 +89,6 @@ export default function ApartmentAgreement() {
       setLoading(false);
       onClose();
     }
-    console.log(agreementInfo);
   };
   return (
     <>
@@ -95,6 +101,7 @@ export default function ApartmentAgreement() {
             src={image}
             alt=""
             className="w-full h-60 sm:h-96 dark:bg-gray-500"
+            title="Click to proceed"
           />
           <div className="p-6 pb-12 m-4 mx-auto -mt-16 space-y-6 lg:max-w-2xl sm:px-10 sm:mx-12 lg:rounded-md bg-gray-700 text-white">
             <div className="space-y-2">

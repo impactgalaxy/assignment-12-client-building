@@ -39,18 +39,25 @@ export default function OlderAnnouncement() {
     });
   };
   return (
-    <div className=" flex items-center justify-center mx-auto my-14">
+    <div className="my-14 p-4">
+      <h1 className="text-2xl">Your announcement</h1>
       <div className="p-4">
         {announcements.map((announce) => (
-          <div key={announce._id} className="space-y-4 border p-4 ">
-            <h1 className="text-xl font-bold">{announce.title}</h1>
+          <div key={announce._id} className="space-y-4 border p-5 ">
+            <h1 className="text-xl font-bold">
+              {announce.title} (for {announce.target_audience.role})
+            </h1>
             <p>
               {formatDistance(new Date(announce.create_at), new Date(), {
                 addSuffix: true,
               })}
             </p>
-            <p>{announce.message}</p>
-            <Button onClick={() => handleDelete(announce._id)}>Delete</Button>
+            <p className="py-4">{announce.message}</p>
+            <Button
+              colorScheme="orange"
+              onClick={() => handleDelete(announce._id)}>
+              Delete
+            </Button>
           </div>
         ))}
       </div>

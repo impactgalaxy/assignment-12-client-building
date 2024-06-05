@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
 import { format } from "date-fns";
+import moment from "moment";
 
 export default function AgreementRequest() {
   const secureApi = useAxiosSecure();
@@ -39,11 +40,14 @@ export default function AgreementRequest() {
             </colgroup>
             <thead className="dark:bg-gray-300">
               <tr className="text-left">
-                <th className="p-3">Apartment id #</th>
                 <th className="p-3">Name</th>
                 <th className="p-3">Email</th>
+                <th className="p-3">Apartment no</th>
+                <th className="p-3">Floor no</th>
+                <th className="p-3">Block no</th>
+                <th className="p-3">Rent</th>
+
                 <th className="p-3">Request time</th>
-                <th className="p-3">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -52,16 +56,29 @@ export default function AgreementRequest() {
                   key={req._id}
                   className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
                   <td className="p-3">
-                    <p>{req.apartment_id}</p>
-                  </td>
-                  <td className="p-3">
                     <p>{req.contractor_name}</p>
                   </td>
                   <td className="p-3">
                     <p>{req.contractor_email}</p>
                   </td>
+                  <td className="p-3 text-center">
+                    <p>{req.apartment_no}</p>
+                  </td>
+                  <td className="p-3 text-center">
+                    <p>{req.floor_no}</p>
+                  </td>
+                  <td className="p-3 text-center">
+                    <p>{req.block_name}</p>
+                  </td>
                   <td className="p-3">
-                    <p> {format(new Date(req.request_time), "dd/mm/yyyy")}</p>
+                    <p>${req.pay}</p>
+                  </td>
+
+                  <td className="p-3">
+                    <p>
+                      {" "}
+                      {moment(new Date(req.request_time)).format("DD/MM/YYYY")}
+                    </p>
                     <p className="dark:text-gray-600">
                       {format(new Date(req.request_time), "EEEE")}
                     </p>
@@ -69,7 +86,12 @@ export default function AgreementRequest() {
 
                   <td className="p-3" onClick={() => handleStatus(req._id)}>
                     <span className="px-3 cursor-pointer py-1 font-semibold rounded-md bg-indigo-500 text-white">
-                      <span>{req.status}</span>
+                      <span>Accept</span>
+                    </span>
+                  </td>
+                  <td className="p-3" onClick={() => handleStatus(req._id)}>
+                    <span className="px-3 cursor-pointer py-1 font-semibold rounded-md bg-red-300 text-white">
+                      <span>Reject</span>
                     </span>
                   </td>
                 </tr>

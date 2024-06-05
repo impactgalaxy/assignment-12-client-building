@@ -18,8 +18,8 @@ export default function useUserCollection() {
     queryKey: ["users"],
     queryFn: userCollection,
   });
-  const totalMember = users.filter((member) => member.role === "member");
-  const generalUser = users.filter((member) => member.role === "user");
+  const totalMember = users.filter((user) => user.role === "member");
+  const generalUser = users.filter((user) => user.role === "user");
   const userRole = users.find((data) => data.uid === user?.uid);
 
   return { users, isLoading, totalMember, generalUser, userRole, refetch };

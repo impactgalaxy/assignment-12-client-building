@@ -115,7 +115,7 @@ export default function DashHome() {
                 <CardFooter>
                   <Button colorScheme="blue">
                     {generalUser.length > 0
-                      ? totalMember.length
+                      ? generalUser.length
                       : "No user yet"}
                   </Button>
                 </CardFooter>
