@@ -1,7 +1,13 @@
+import AboutBuilding from "./home_components/AboutBuilding";
+import Banner from "./home_components/Banner";
+import BuildingLocation from "./home_components/BuildingLocation";
+
 export default function Home() {
   return (
     <div>
-      <h1>This is home</h1>
+      <Banner></Banner>
+      <AboutBuilding></AboutBuilding>
+      <BuildingLocation></BuildingLocation>
     </div>
   );
 }
