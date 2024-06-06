@@ -3,13 +3,51 @@ import useAuth from "../../../../others/hooks/useAuth";
 import useUserCollection from "../../../../others/hooks/useUserCollection";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosCommon from "../../../../others/hooks/axios/useAxiosCommon";
+import useAxiosSecure from "../../../../others/hooks/axios/useAxiosSecure";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import Loading from "../../../components/shared_components/Loading";
 
 export default function GetCoupon() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const commonApi = useAxiosCommon();
+  const secureApi = useAxiosSecure();
+  const [myCouponCode, setMyCouponCode] = useState({});
+  const [couponLoading, setCouponLoading] = useState(false);
+  // const [showCodeBtn, setShowCodeBtn] = useState(false)
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { users } = useUserCollection();
-  const isMember = users.find((user) => user.uid === user?.uid);
-  const handleGetCoupon = () => {
+  const { users, isLoading } = useUserCollection();
+
+  console.log(users);
+  const isMember = users.find((u) => u.uid === user?.uid);
+  console.log(isMember);
+  const { data: totalCoupon = {} } = useQuery({
+    queryKey: ["count-coupon"],
+    queryFn: async () => {
+      const response = await commonApi.get("/count-coupons");
+      return response.data;
+    },
+  });
+  if (isLoading) return <Loading></Loading>;
+
+  const handleGetCoupon = async () => {
+    setCouponLoading(true);
+    // setShowCodeBtn(true);
+    const generateRandomId = Math.floor(
+      Math.random() * totalCoupon.result + 1
+    ).toString();
     if (!user) {
       return toast.error("Please login first to pick coupon");
     }
@@ -28,8 +66,23 @@ export default function GetCoupon() {
         }
       });
     }
-    console.log("get c");
+    try {
+      const response = await secureApi.get(
+        `/getMyCoupon?id=${generateRandomId}&uid=${user.uid}`
+      );
+      setMyCouponCode(response.data);
+      if (response.data) {
+        setTimeout(() => {
+          setCouponLoading(false);
+          onOpen();
+          toast.success("Coupon generate successfully");
+        }, 5000);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+  console.log(myCouponCode);
   return (
     <section className="my-5 p-4">
       <div className="bg-indigo-400">
@@ -42,6 +95,7 @@ export default function GetCoupon() {
           </p>
           <div className="flex flex-wrap justify-center gap-5">
             <button
+              disabled={isMember && isMember.generate_coupon}
               type="button"
               className=" btn btn-accent"
               onClick={handleGetCoupon}>
@@ -50,7 +104,15 @@ export default function GetCoupon() {
             <button type="button" className="btn-outline btn">
               Condition
             </button>
+            {myCouponCode?.uid && <button onClick={onOpen}>Show code</button>}
           </div>
+          {couponLoading && (
+            <div className="flex items-center justify-center h-10 p-4">
+              <h1 className="text-3xl ">
+                Generating coupon code please wait...
+              </h1>
+            </div>
+          )}
         </div>
       </div>
       <img
@@ -58,6 +120,26 @@ export default function GetCoupon() {
         alt=""
         className="w-5/6 mx-auto mb-12 -mt-20 dark:bg-gray-500 rounded-lg shadow-md lg:-mt-40"
       />
+
+      <Modal isOpen={isOpen} closeOnOverlayClick={false} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Your coupon code</ModalHeader>
+
+          <ModalBody>
+            <div className="h-20 flex items-center justify-center border-2 my-2">
+              <h1 className="text-lg font-bold">{myCouponCode.coupon_code}</h1>
+            </div>
+            <h1>{myCouponCode.description}</h1>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </section>
   );
 }

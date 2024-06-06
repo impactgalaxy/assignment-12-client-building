@@ -44,17 +44,21 @@ export default function ManageCoupons() {
   const handleAddCoupon = async (values) => {
     const { coupon, discount, description } = values;
     const coupon_code = coupon.split(" ").join("");
+    const id = coupons.length + 1;
     try {
       const response = await secureApi.post("/create-coupons", {
         coupon_code,
         discount,
         description,
+        id,
       });
-      console.log(response.data);
       if (response.data.insertedId) {
         toast.success("Coupon added successfully");
         reset();
         refetch();
+        setTimeout(() => {
+          onClose();
+        }, 1500);
       }
     } catch (error) {
       toast.error(error.message);
