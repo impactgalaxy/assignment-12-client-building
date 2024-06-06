@@ -16,6 +16,7 @@ import Announcements from "../../Dashboard/dashboard_components/Announcements";
 import OlderAnnouncement from "../../Dashboard/Admin/OlderAnnouncement";
 import ApartmentAgreement from "../../components/apartment/ApartmentAgreement";
 import AgreementRequest from "../../Dashboard/Admin/AgreementRequest";
+import ManageCoupons from "../../Dashboard/Admin/ManageCoupons";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AgreementRequest />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manage-coupons",
+        element: (
+          <AdminRoute>
+            <ManageCoupons />
           </AdminRoute>
         ),
       },
