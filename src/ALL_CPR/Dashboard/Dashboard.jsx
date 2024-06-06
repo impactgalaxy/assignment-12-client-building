@@ -20,6 +20,7 @@ import { IoIosMenu, IoIosPeople } from "react-icons/io";
 import { RiCoupon2Line } from "react-icons/ri";
 import useUserCollection from "../../others/hooks/useUserCollection";
 import toast from "react-hot-toast";
+import useAgreementRequest from "../../others/hooks/useAgreementRequest";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -29,6 +30,7 @@ export default function Dashboard() {
   const [block, setBlock] = useState(false);
   const { user, logOut } = useAuth();
   const [load, setLoad] = useState(true);
+  const { newRequest } = useAgreementRequest();
 
   useEffect(() => {
     setLoad(false);
@@ -102,7 +104,6 @@ export default function Dashboard() {
                 justifyContent="flex-start"
                 w="100%"
                 height="48px"
-                className="text-red-700"
                 leftIcon={<FaUser />}>
                 My Profile
               </Button>
@@ -115,7 +116,6 @@ export default function Dashboard() {
                     justifyContent="flex-start"
                     w="100%"
                     height="48px"
-                    className="text-red-700"
                     leftIcon={<IoIosPeople />}>
                     Manage Members
                   </Button>
@@ -125,7 +125,6 @@ export default function Dashboard() {
                     justifyContent="flex-start"
                     w="100%"
                     height="48px"
-                    className="text-red-700"
                     leftIcon={<TfiAnnouncement />}>
                     Make Announcement
                   </Button>
@@ -135,9 +134,13 @@ export default function Dashboard() {
                     justifyContent="flex-start"
                     w="100%"
                     height="48px"
-                    className="text-red-700"
                     leftIcon={<FaRegQuestionCircle />}>
-                    Agreement Request
+                    Agreement Request{" "}
+                    {newRequest.length > 0 && (
+                      <sup className=" px-2 text-red-400">
+                        {newRequest.length}
+                      </sup>
+                    )}
                   </Button>
                 </NavLink>
                 <NavLink to="manage-coupons" style={style}>
@@ -145,7 +148,6 @@ export default function Dashboard() {
                     justifyContent="flex-start"
                     w="100%"
                     height="48px"
-                    className="text-red-700"
                     leftIcon={<RiCoupon2Line />}>
                     Manage Coupons
                   </Button>

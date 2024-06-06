@@ -50,6 +50,9 @@ export default function ApartmentAgreement() {
   } = agreement || {};
 
   const handleAgreement = async () => {
+    if (user?.uid === import.meta.env.VITE_AD_UID) {
+      return toast.error("Admin can not agreement request");
+    }
     setLoading(true);
     const agreementInfo = {
       contractor_name: user?.displayName,

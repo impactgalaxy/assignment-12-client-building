@@ -17,6 +17,7 @@ const googleProvider = new GoogleAuthProvider();
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [newRequest, setNewRequest] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
@@ -62,11 +63,13 @@ export default function AuthProvider({ children }) {
     loginUser,
     updateNamePhoto,
     logOut,
+    newRequest,
+    setNewRequest,
   };
   return (
     <AuthContext.Provider value={$info}>
       {children}
-      <Toaster position="top-right"></Toaster>
+      <Toaster position="center"></Toaster>
     </AuthContext.Provider>
   );
 }
