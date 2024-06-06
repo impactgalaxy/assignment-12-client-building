@@ -1,18 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
-import useAuth from "../../../others/hooks/useAuth";
 import moment from "moment";
+import useMemberApartment from "../../../others/hooks/useMemberApartment";
+import Loading from "../../components/shared_components/Loading";
 
 export default function MemberProfile() {
-  const { user } = useAuth();
-  const secureApi = useAxiosSecure();
-  const { data: myRequest = [] } = useQuery({
-    queryKey: ["my-request"],
-    queryFn: async () => {
-      const response = await secureApi(`/agreement-apartment/${user?.uid}`);
-      return response.data;
-    },
-  });
+  const { myRequest, isLoading } = useMemberApartment();
+  if (isLoading) return <Loading></Loading>;
+
   return (
     <div className="p-5">
       <div className="border-2 py-4 px-2">
@@ -21,7 +14,13 @@ export default function MemberProfile() {
           Request{" "}
           <span className="font-black text-2xl">{myRequest.status}</span>
         </p>
-        <p>{myRequest?.isAccept ? "Request accept" : ""}</p>
+        <p>
+          {myRequest?.isAccept
+            ? `Request accept at ${moment(new Date(myRequest.accept_at)).format(
+                "DD/MM/YYYY"
+              )} `
+            : ""}
+        </p>
       </div>
       <div className="space-y-5 font-bold text-lg p-4">
         <p>Apartment id : {myRequest.apartment_id}</p>

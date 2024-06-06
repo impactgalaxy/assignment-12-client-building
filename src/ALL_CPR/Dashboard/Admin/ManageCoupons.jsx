@@ -44,7 +44,7 @@ export default function ManageCoupons() {
   const handleAddCoupon = async (values) => {
     const { coupon, discount, description } = values;
     const coupon_code = coupon.split(" ").join("");
-    const id = coupons.length + 1;
+    const id = (coupons.length + 1).toString();
     try {
       const response = await secureApi.post("/create-coupons", {
         coupon_code,

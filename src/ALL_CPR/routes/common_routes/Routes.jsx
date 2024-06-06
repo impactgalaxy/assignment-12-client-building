@@ -17,6 +17,7 @@ import OlderAnnouncement from "../../Dashboard/Admin/OlderAnnouncement";
 import ApartmentAgreement from "../../components/apartment/ApartmentAgreement";
 import AgreementRequest from "../../Dashboard/Admin/AgreementRequest";
 import ManageCoupons from "../../Dashboard/Admin/ManageCoupons";
+import MakePayment from "../../Dashboard/dashboard_components/MakePayment";
 
 const router = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
       {
         path: "older-announcement",
         element: <OlderAnnouncement />,
+      },
+      {
+        path: "make-payment",
+        element: <MakePayment />,
       },
     ],
   },
