@@ -18,7 +18,7 @@ import {
 import useMemberApartment from "../../../others/hooks/useMemberApartment";
 import Loading from "../../components/shared_components/Loading";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";
@@ -33,11 +33,11 @@ export default function MakePayment() {
   let coupon_code = useRef();
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { myRequest, isLoading } = useMemberApartment();
   const [month, setMonth] = useState("");
-
-  const [netPayable, setNetPayable] = useState(myRequest.pay);
+  const [clientSecret, setClientSecret] = useState("");
+  const [payablePrice, setPayablePrice] = useState(0);
 
   if (isLoading) return <Loading></Loading>;
 
@@ -46,18 +46,12 @@ export default function MakePayment() {
       return toast.error("Please select month");
     }
     try {
-      let code = coupon_code.current.value;
-      const response = await secureApi.get(
-        `/validate-coupon?coupon_code=${code}`
-      );
-      const payableRent =
-        myRequest.pay - (response.data.discount / 100) * myRequest.pay;
-      setNetPayable(payableRent);
-
-      if (!response.data || response.data === "") {
-        const payableRent = myRequest.pay;
-        setNetPayable(payableRent);
-      }
+      const paymentIntent = await secureApi.post("/create-payment-intent", {
+        coupon_code: coupon_code.current.value,
+        price: myRequest.pay,
+      });
+      setClientSecret(paymentIntent.data.clientSecret);
+      setPayablePrice(paymentIntent.data.payablePrice);
     } catch (error) {
       toast.error(error.message);
     }
@@ -165,12 +159,27 @@ export default function MakePayment() {
                 month
               </h1>
               <h1>
-                Net payable <span className="font-black ">{netPayable}</span>
+                Net payable{" "}
+                <span className="font-black ">{payablePrice / 100}</span>
               </h1>
+              {myRequest.pay === payablePrice / 100 ? (
+                " "
+              ) : (
+                <h1>
+                  Congratulations! you got{" "}
+                  <span className="font-black ">
+                    {myRequest.pay - payablePrice / 100} discount
+                  </span>
+                </h1>
+              )}
             </Box>
             <Box className="py-5">
               <Elements stripe={stripePromise}>
-                <CheckoutForm month={month} payable={myRequest.pay} />
+                <CheckoutForm
+                  month={month}
+                  payable={myRequest.pay}
+                  clientSecret={clientSecret}
+                />
               </Elements>
             </Box>
           </ModalBody>

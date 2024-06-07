@@ -1,10 +1,13 @@
 import { Button } from "@chakra-ui/react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import useAuth from "../../../../others/hooks/useAuth";
+import useAxiosSecure from "../../../../others/hooks/axios/useAxiosSecure";
 
-export default function CheckoutForm({ month }) {
-  const [clientSecret, setClientSecret] = useState("");
+export default function CheckoutForm({ month, clientSecret }) {
+  const secureApi = useAxiosSecure();
+  const { user } = useAuth();
+
   const stripe = useStripe();
   const elements = useElements();
 
@@ -38,6 +41,26 @@ export default function CheckoutForm({ month }) {
       console.log("[error]", error);
     } else {
       console.log("[PaymentMethod]", paymentMethod);
+      try {
+        const obj = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: card,
+            billing_details: {
+              name: user?.displayName ? user?.displayName : "Unknown name",
+              email: user?.email ? user?.email : "Unknown email",
+            },
+          },
+        });
+        const paymentHistory = await secureApi.post("/payment-history", {
+          month,
+          uid: user.uid,
+          obj,
+        });
+        console.log(paymentHistory.data);
+        console.log(obj);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
@@ -68,4 +91,5 @@ export default function CheckoutForm({ month }) {
 }
 CheckoutForm.propTypes = {
   month: PropTypes.string,
+  clientSecret: PropTypes.string,
 };

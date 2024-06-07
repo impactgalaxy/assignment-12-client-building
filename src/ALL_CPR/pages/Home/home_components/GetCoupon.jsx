@@ -80,7 +80,6 @@ export default function GetCoupon() {
       toast.error(error.message);
     }
   };
-  console.log(myCouponCode);
   return (
     <section className="my-5 p-4">
       <div className="bg-indigo-400">
