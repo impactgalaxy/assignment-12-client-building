@@ -3,20 +3,25 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import PropTypes from "prop-types";
 import useAuth from "../../../../others/hooks/useAuth";
 import useAxiosSecure from "../../../../others/hooks/axios/useAxiosSecure";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 export default function CheckoutForm({ month, clientSecret }) {
   const secureApi = useAxiosSecure();
   const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
+    setIsLoading(true);
     // Block native form submission.
     event.preventDefault();
     console.log(month);
 
     if (!stripe || !elements) {
+      setIsLoading(false);
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
       return;
@@ -28,6 +33,7 @@ export default function CheckoutForm({ month, clientSecret }) {
     const card = elements.getElement(CardElement);
 
     if (card == null) {
+      setIsLoading(false);
       return;
     }
 
@@ -38,6 +44,7 @@ export default function CheckoutForm({ month, clientSecret }) {
     });
 
     if (error) {
+      setIsLoading(false);
       console.log("[error]", error);
     } else {
       console.log("[PaymentMethod]", paymentMethod);
@@ -51,15 +58,30 @@ export default function CheckoutForm({ month, clientSecret }) {
             },
           },
         });
-        const paymentHistory = await secureApi.post("/payment-history", {
-          month,
-          uid: user.uid,
-          obj,
-        });
-        console.log(paymentHistory.data);
+        if (obj.paymentIntent.status) {
+          setIsLoading(false);
+          const { amount, created, status, id } = obj.paymentIntent;
+          const history = {
+            amount,
+            created,
+            id,
+            status,
+            month,
+            uid: user.uid,
+          };
+
+          toast.success("Payment successful");
+
+          const paymentHistory = await secureApi.put("/payment-history", {
+            history,
+          });
+          console.log(paymentHistory.data);
+        }
+
         console.log(obj);
       } catch (error) {
-        console.log(error);
+        setIsLoading(false);
+        toast.error(error);
       }
     }
   };
@@ -82,7 +104,11 @@ export default function CheckoutForm({ month, clientSecret }) {
         }}
       />
       <div className="flex items-center justify-end py-5">
-        <Button colorScheme="blue" type="submit" disabled={!stripe}>
+        <Button
+          isLoading={isLoading}
+          colorScheme="blue"
+          type="submit"
+          disabled={isLoading || !stripe || !elements}>
           Pay
         </Button>
       </div>
