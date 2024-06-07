@@ -4,17 +4,65 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Select,
+  useDisclosure,
 } from "@chakra-ui/react";
 import useMemberApartment from "../../../others/hooks/useMemberApartment";
 import Loading from "../../components/shared_components/Loading";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./payment/CheckoutForm";
+import { loadStripe } from "@stripe/stripe-js";
+import useAuth from "../../../others/hooks/useAuth";
+import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 export default function MakePayment() {
+  const secureApi = useAxiosSecure();
+  let coupon_code = useRef();
+  const { user } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
   const { myRequest, isLoading } = useMemberApartment();
   const [month, setMonth] = useState("");
-  console.log(month);
+
+  const [netPayable, setNetPayable] = useState(myRequest.pay);
+
   if (isLoading) return <Loading></Loading>;
+
+  const handlePay = async () => {
+    if (!month) {
+      return toast.error("Please select month");
+    }
+    try {
+      let code = coupon_code.current.value;
+      const response = await secureApi.get(
+        `/validate-coupon?coupon_code=${code}`
+      );
+      const payableRent =
+        myRequest.pay - (response.data.discount / 100) * myRequest.pay;
+      setNetPayable(payableRent);
+
+      if (!response.data || response.data === "") {
+        const payableRent = myRequest.pay;
+        setNetPayable(payableRent);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+    onOpen();
+  };
   return (
     <div className="p-4 lg:p-10">
       <h1 className="text-2xl lg:3xl">Pay your payment </h1>
@@ -52,8 +100,24 @@ export default function MakePayment() {
               ${myRequest.pay}
             </h1>
           </Box>
+          <Box border="1px solid black" className="grid grid-cols-2 ">
+            <h1 className="bg-blue-gray-300 py-3 text-center select-none">
+              Leaseholder name
+            </h1>
+            <h1 className="bg-blue-gray-300 py-3 text-center select-none">
+              ${user?.displayName}
+            </h1>
+          </Box>
+          <Box border="1px solid black" className="grid grid-cols-2 ">
+            <h1 className="bg-blue-gray-300 py-3 text-center select-none">
+              Leaseholder email
+            </h1>
+            <h1 className="bg-blue-gray-300 py-3 text-center select-none">
+              ${user?.email}
+            </h1>
+          </Box>
         </div>
-        <Box className="flex flex-col p-5">
+        <Box className="flex flex-col p-5 gap-3">
           <FormControl>
             <FormLabel>Payment month</FormLabel>
             <Select
@@ -74,12 +138,45 @@ export default function MakePayment() {
               <option value="December">December</option>
             </Select>
           </FormControl>
-          <Box className="flex-grow"></Box>
+
+          <Box className="flex-grow">
+            <FormControl>
+              <FormLabel>Apply coupon code</FormLabel>
+              <Input htmlSize={4} width="220px" ref={coupon_code} />
+            </FormControl>
+          </Box>
           <Flex justifyContent="flex-end">
-            <Button colorScheme="blue">Pay</Button>
+            <Button colorScheme="blue" onClick={handlePay}>
+              Pay
+            </Button>
           </Flex>
         </Box>
       </section>
+      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+        <ModalOverlay />
+
+        <ModalContent>
+          <ModalHeader>Payment</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box p="20px 0" className="space-y-2">
+              <h1>
+                Your payment of <span className="font-black ">{month}</span>{" "}
+                month
+              </h1>
+              <h1>
+                Net payable <span className="font-black ">{netPayable}</span>
+              </h1>
+            </Box>
+            <Box className="py-5">
+              <Elements stripe={stripePromise}>
+                <CheckoutForm month={month} payable={myRequest.pay} />
+              </Elements>
+            </Box>
+          </ModalBody>
+        </ModalContent>
+        <ModalFooter></ModalFooter>
+      </Modal>
     </div>
   );
 }

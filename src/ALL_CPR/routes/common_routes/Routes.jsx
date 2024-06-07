@@ -18,6 +18,7 @@ import ApartmentAgreement from "../../components/apartment/ApartmentAgreement";
 import AgreementRequest from "../../Dashboard/Admin/AgreementRequest";
 import ManageCoupons from "../../Dashboard/Admin/ManageCoupons";
 import MakePayment from "../../Dashboard/dashboard_components/MakePayment";
+import PaymentByStripe from "../../Dashboard/dashboard_components/payment/PaymentByStripe";
 
 const router = createBrowserRouter([
   {
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
       {
         path: "make-payment",
         element: <MakePayment />,
+      },
+      {
+        path: "make-payment/payment-by-stripe",
+        element: <PaymentByStripe />,
       },
     ],
   },

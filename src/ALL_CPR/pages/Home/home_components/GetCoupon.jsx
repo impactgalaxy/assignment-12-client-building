@@ -30,9 +30,7 @@ export default function GetCoupon() {
   const { user } = useAuth();
   const { users, isLoading } = useUserCollection();
 
-  console.log(users);
   const isMember = users.find((u) => u.uid === user?.uid);
-  console.log(isMember);
   const { data: totalCoupon = {} } = useQuery({
     queryKey: ["count-coupon"],
     queryFn: async () => {
