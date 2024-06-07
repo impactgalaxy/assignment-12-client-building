@@ -5,11 +5,13 @@ import useAuth from "../../../../others/hooks/useAuth";
 import useAxiosSecure from "../../../../others/hooks/axios/useAxiosSecure";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CheckoutForm({ month, clientSecret }) {
   const secureApi = useAxiosSecure();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -45,7 +47,6 @@ export default function CheckoutForm({ month, clientSecret }) {
 
     if (error) {
       setIsLoading(false);
-      console.log("[error]", error);
     } else {
       console.log("[PaymentMethod]", paymentMethod);
       try {
@@ -60,10 +61,10 @@ export default function CheckoutForm({ month, clientSecret }) {
         });
         if (obj.paymentIntent.status) {
           setIsLoading(false);
-          const { amount, created, status, id } = obj.paymentIntent;
+          const { amount, status, id } = obj.paymentIntent;
           const history = {
             amount,
-            created,
+            payment_date: new Date().toUTCString(),
             id,
             status,
             month,
@@ -76,9 +77,10 @@ export default function CheckoutForm({ month, clientSecret }) {
             history,
           });
           console.log(paymentHistory.data);
+          if (paymentHistory.data.insertedId) {
+            navigate("payment-history");
+          }
         }
-
-        console.log(obj);
       } catch (error) {
         setIsLoading(false);
         toast.error(error);

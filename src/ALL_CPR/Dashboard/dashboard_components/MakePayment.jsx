@@ -18,7 +18,6 @@ import {
 import useMemberApartment from "../../../others/hooks/useMemberApartment";
 import Loading from "../../components/shared_components/Loading";
 import { useRef, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";
@@ -33,7 +32,7 @@ export default function MakePayment() {
   let coupon_code = useRef();
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const navigate = useNavigate();
+
   const { myRequest, isLoading } = useMemberApartment();
   const [month, setMonth] = useState("");
   const [clientSecret, setClientSecret] = useState("");
