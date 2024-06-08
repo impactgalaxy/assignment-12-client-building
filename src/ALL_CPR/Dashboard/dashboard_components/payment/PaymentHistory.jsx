@@ -6,7 +6,13 @@ import moment from "moment";
 import { useRef, useState } from "react";
 import useAuth from "../../../../others/hooks/useAuth";
 
-const TABLE_HEAD = ["Month", "Payment Date", "Amount", "Condition", ""];
+const TABLE_HEAD = [
+  "Month",
+  "Payment Date",
+  "Amount",
+  "Condition",
+  "Transactions id",
+];
 export default function PaymentHistory() {
   const [value, setValue] = useState("");
 
@@ -22,15 +28,9 @@ export default function PaymentHistory() {
       return history.data;
     },
   });
-  console.log(value);
 
   if (isLoading) return <Loading></Loading>;
-  console.log(paymentHistory);
 
-  const handleSearch = () => {
-    const val = searchVal.current.value;
-    setValue(val);
-  };
   return (
     <Card className="h-full w-full overflow-scroll py-5">
       <h1>Payment History</h1>
@@ -38,7 +38,8 @@ export default function PaymentHistory() {
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
             <button
-              type="submit"
+              onClick={() => setValue(searchVal.current.value)}
+              type="button"
               title="Search"
               className="p-1 focus:outline-none focus:ring">
               <svg
@@ -53,19 +54,21 @@ export default function PaymentHistory() {
             type="search"
             ref={searchVal}
             name="Search"
-            placeholder="Search by month..."
-            className="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none dark:bg-gray-100 dark:text-gray-800 focus:dark:bg-gray-50"
+            placeholder="Search by month name"
+            className="w-44 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none dark:bg-gray-100 dark:text-gray-800 focus:dark:bg-gray-50"
           />
         </div>
         <button
-          onClick={handleSearch}
+          onClick={() => setValue(searchVal.current.value)}
           type="button"
-          className="hidden px-6 py-2 font-semibold rounded lg:block dark:bg-violet-600 dark:text-gray-50">
+          className="hidden px-6 py-2 font-semibold rounded lg:block text-black">
           Search
         </button>
       </div>
       {paymentHistory.length === 0 ? (
-        <h1 className="text-2xl text-center">No payment available</h1>
+        <h1 className="text-2xl text-center">
+          No payment available for {`"${value}"`}
+        </h1>
       ) : (
         <table className="w-full min-w-max table-auto text-left border">
           <thead>
@@ -126,7 +129,7 @@ export default function PaymentHistory() {
                         {status}
                       </Typography>
                     </td>
-                    <td className={classes} title="Remove membership">
+                    <td className={classes}>
                       <Typography
                         variant="small"
                         color="blue-gray"

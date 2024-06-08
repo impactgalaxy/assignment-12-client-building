@@ -98,7 +98,7 @@ export default function MakePayment() {
               Leaseholder name
             </h1>
             <h1 className="bg-blue-gray-300 py-3 text-center select-none">
-              ${user?.displayName}
+              {user?.displayName}
             </h1>
           </Box>
           <Box border="1px solid black" className="grid grid-cols-2 ">
@@ -106,13 +106,13 @@ export default function MakePayment() {
               Leaseholder email
             </h1>
             <h1 className="bg-blue-gray-300 py-3 text-center select-none">
-              ${user?.email}
+              {user?.email}
             </h1>
           </Box>
         </div>
         <Box className="flex flex-col p-5 gap-3">
           <FormControl>
-            <FormLabel>Payment month</FormLabel>
+            <FormLabel>Payment</FormLabel>
             <Select
               placeholder="Select month"
               value={month}
@@ -135,7 +135,12 @@ export default function MakePayment() {
           <Box className="flex-grow">
             <FormControl>
               <FormLabel>Apply coupon code</FormLabel>
-              <Input htmlSize={4} width="220px" ref={coupon_code} />
+              <Input
+                htmlSize={4}
+                width="220px"
+                ref={coupon_code}
+                placeholder="Apply coupon if any"
+              />
             </FormControl>
           </Box>
           <Flex justifyContent="flex-end">
@@ -162,7 +167,7 @@ export default function MakePayment() {
                 <span className="font-black ">{payablePrice / 100}</span>
               </h1>
               {myRequest.pay === payablePrice / 100 ? (
-                " "
+                <p className="text-red-600 text-lg">Sorry! invalid coupon</p>
               ) : (
                 <h1>
                   Congratulations! you got{" "}
@@ -178,6 +183,7 @@ export default function MakePayment() {
                   month={month}
                   payable={myRequest.pay}
                   clientSecret={clientSecret}
+                  onClose={onClose}
                 />
               </Elements>
             </Box>

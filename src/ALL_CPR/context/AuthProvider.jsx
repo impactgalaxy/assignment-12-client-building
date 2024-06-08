@@ -11,13 +11,14 @@ import {
 } from "firebase/auth";
 import auth from "../../others/firebase/firebase.config";
 import { Toaster } from "react-hot-toast";
+import useAxiosCommon from "../../others/hooks/axios/useAxiosCommon";
 
 export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
 
 export default function AuthProvider({ children }) {
+  const commonApi = useAxiosCommon();
   const [user, setUser] = useState(null);
-  const [newRequest, setNewRequest] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
@@ -45,8 +46,17 @@ export default function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (isUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (isUser) => {
       setUser(isUser);
+      if (isUser) {
+        const userInfo = { email: isUser?.email, uid: isUser?.uid };
+        const response = await commonApi.post("/jwt", userInfo);
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+        }
+      } else {
+        localStorage.removeItem("token");
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -63,8 +73,6 @@ export default function AuthProvider({ children }) {
     loginUser,
     updateNamePhoto,
     logOut,
-    newRequest,
-    setNewRequest,
   };
   return (
     <AuthContext.Provider value={$info}>

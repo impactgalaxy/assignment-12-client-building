@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function CheckoutForm({ month, clientSecret }) {
+export default function CheckoutForm({ month, clientSecret, onClose }) {
   const secureApi = useAxiosSecure();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -76,9 +76,12 @@ export default function CheckoutForm({ month, clientSecret }) {
           const paymentHistory = await secureApi.put("/payment-history", {
             history,
           });
-          console.log(paymentHistory.data);
+
           if (paymentHistory.data.insertedId) {
             navigate("payment-history");
+            setTimeout(() => {
+              onClose();
+            }, 1500);
           }
         }
       } catch (error) {
@@ -120,4 +123,5 @@ export default function CheckoutForm({ month, clientSecret }) {
 CheckoutForm.propTypes = {
   month: PropTypes.string,
   clientSecret: PropTypes.string,
+  onClose: PropTypes.func,
 };
