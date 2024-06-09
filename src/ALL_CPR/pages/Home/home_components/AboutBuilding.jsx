@@ -3,7 +3,6 @@ import { useState } from "react";
 
 export default function AboutBuilding() {
   const [state, setState] = useState(0);
-  console.log(state);
   return (
     <>
       <section className="py-8 bg-gray-100 text-white bg-[url('https://i.ibb.co/1X2Tph6/simone-hutsch-l8fy-K9-RS-OU-unsplash.jpg')] bg-center bg-no-repeat bg-cover rounded-2xl">

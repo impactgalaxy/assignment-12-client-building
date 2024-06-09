@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 const axiosSecure = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
 
 export default function useAxiosSecure() {
@@ -40,7 +41,7 @@ export default function useAxiosSecure() {
             .then(() => {
               navigate("/");
             })
-            .then((err) => {
+            .catch((err) => {
               toast.error(err.code.split("/")[1]);
             });
         }

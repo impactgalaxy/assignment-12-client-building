@@ -18,14 +18,16 @@ import { FcSettings } from "react-icons/fc";
 import { RiSecurePaymentFill } from "react-icons/ri";
 import { IoIosMenu, IoIosPeople } from "react-icons/io";
 import { RiCoupon2Line } from "react-icons/ri";
-import useUserCollection from "../../others/hooks/useUserCollection";
 import toast from "react-hot-toast";
 import useAgreementRequest from "../../others/hooks/useAgreementRequest";
+import useAdmin from "../../others/hooks/useAdmin";
+import useRole from "../../others/hooks/useRole";
 
 export default function Dashboard() {
   const location = useLocation();
   // const navigate = useNavigate();
-  const { userRole, isLoading } = useUserCollection();
+  const { isAdmin } = useAdmin();
+  const { userRole } = useRole();
   const [drawer, setDrawer] = useState(false);
   const [block, setBlock] = useState(false);
   const { user, logOut } = useAuth();
@@ -35,8 +37,6 @@ export default function Dashboard() {
   useEffect(() => {
     setLoad(false);
   }, [location?.pathname]);
-
-  if (isLoading) return <Loading></Loading>;
 
   const style = ({ isActive, isPending, isTransitioning }) => {
     return {
@@ -109,7 +109,7 @@ export default function Dashboard() {
               </Button>
             </NavLink>
             {/* Admin nav link start*/}
-            {userRole?.role === "admin" && (
+            {isAdmin && (
               <div>
                 <NavLink to="manage-members" style={style}>
                   <Button
@@ -158,7 +158,7 @@ export default function Dashboard() {
             {/* Admin nav link end */}
 
             {/* member nav link start*/}
-            {userRole?.role === "member" && (
+            {userRole === "member" && (
               <div>
                 <NavLink to="make-payment" style={style}>
                   <Button
@@ -182,7 +182,7 @@ export default function Dashboard() {
             )}
             {/* member nav link end */}
 
-            {userRole?.role === "admin" || (
+            {isAdmin || (
               <NavLink to="announcements" style={style}>
                 <Button
                   justifyContent="flex-start"

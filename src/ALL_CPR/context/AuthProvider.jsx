@@ -61,7 +61,7 @@ export default function AuthProvider({ children }) {
       }
     });
     return () => unsubscribe();
-  }, [commonApi]);
+  }, []);
 
   const $info = {
     user,

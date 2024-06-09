@@ -1,25 +1,11 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
 import Marquee from "react-fast-marquee";
-import useUserCollection from "../../../others/hooks/useUserCollection";
-import Loading from "../../components/shared_components/Loading";
-import { Link } from "react-router-dom";
 import useAdmin from "../../../others/hooks/useAdmin";
+import { Box } from "@chakra-ui/react";
 
 export default function DashHome() {
-  const { users, isLoading, totalMember, generalUser, userRole } =
-    useUserCollection();
   const { isAdmin } = useAdmin();
 
-  if (isLoading) return <Loading></Loading>;
+  // if (isLoading) return <Loading></Loading>;
 
   return (
     <Box bg="base.200" p="15px">
@@ -27,102 +13,17 @@ export default function DashHome() {
         <span className="font-bold text-3xl">You are most welcome</span>
       </Marquee>
       <div className="">
-        {userRole && userRole?.role === "user" && (
-          <Card
-            align="center"
-            bg="linear-gradient(#1F3857, #34495c)"
-            color="white">
-            <CardHeader>
-              <Heading size="md"> This is only for user</Heading>
-            </CardHeader>
-            <CardBody>
-              <Text>There are many link for browser</Text>
-            </CardBody>
-            <CardFooter>
-              <Link to="/" className="btn">
-                Back to home
-              </Link>
-            </CardFooter>
-          </Card>
-        )}
-        {userRole && userRole?.role === "member" && (
-          <Card
-            align="center"
-            bg="linear-gradient(#1F3857, #34495c)"
-            color="white">
-            <CardHeader>
-              <Heading size="md"> This is only for member</Heading>
-            </CardHeader>
-            <CardBody>
-              <Text>There are many link for browser</Text>
-            </CardBody>
-            <CardFooter>
-              <Link to="/" className="btn">
-                Back to home
-              </Link>
-            </CardFooter>
-          </Card>
-        )}
         <div className="flex items-center gap-3 justify-center flex-col md:flex-row flex-wrap">
-          {isAdmin && (
+          {isAdmin ? (
             <>
-              <Card
-                align="center"
-                bg="linear-gradient(#1F3857, #34495c)"
-                color="white">
-                <CardHeader>
-                  <Heading size="md"> Total User</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Text>
-                    View a summary of all your customers over the last month.
-                  </Text>
-                </CardBody>
-                <CardFooter>
-                  <Button colorScheme="blue">{users.length - 1}</Button>
-                </CardFooter>
-              </Card>
-              <Card
-                align="center"
-                bg="linear-gradient(#1F3857, #34495c)"
-                color="white">
-                <CardHeader>
-                  <Heading size="md"> Total Member</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Text>
-                    View a summary of all your customers over the last month.
-                  </Text>
-                </CardBody>
-                <CardFooter>
-                  <Button colorScheme="blue">
-                    {totalMember.length > 0
-                      ? totalMember.length
-                      : "No member yet"}
-                  </Button>
-                </CardFooter>
-              </Card>
-              <Card
-                align="center"
-                bg="linear-gradient(#1F3857, #34495c)"
-                color="white">
-                <CardHeader>
-                  <Heading size="md"> Total general User</Heading>
-                </CardHeader>
-                <CardBody>
-                  <Text>
-                    View a summary of all your customers over the last month.
-                  </Text>
-                </CardBody>
-                <CardFooter>
-                  <Button colorScheme="blue">
-                    {generalUser.length > 0
-                      ? generalUser.length
-                      : "No user yet"}
-                  </Button>
-                </CardFooter>
-              </Card>
+              <h1>Admin component</h1>
             </>
+          ) : (
+            <div className="p-10 flex items-center justify-center">
+              <h1 className="lg:text-8xl text-2xl md:text-4xl">
+                Get fancy discount{" "}
+              </h1>
+            </div>
           )}
         </div>
       </div>

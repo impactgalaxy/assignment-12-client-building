@@ -23,12 +23,9 @@ export default function ManageMembers() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await secureApi.patch(
-            `http://localhost:5000/delete-member/${id}`,
-            {
-              role: "user",
-            }
-          );
+          const response = await secureApi.patch(`/delete-member/${id}`, {
+            role: "user",
+          });
           if (response.data.modifiedCount > 0) {
             Swal.fire({
               title: "Deleted!",
