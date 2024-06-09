@@ -167,7 +167,9 @@ export default function MakePayment() {
                 <span className="font-black ">{payablePrice / 100}</span>
               </h1>
               {myRequest.pay === payablePrice / 100 ? (
-                <p className="text-red-600 text-lg">Sorry! invalid coupon</p>
+                <p className="text-red-600 text-lg">
+                  Sorry! coupon not available
+                </p>
               ) : (
                 <h1>
                   Congratulations! you got{" "}

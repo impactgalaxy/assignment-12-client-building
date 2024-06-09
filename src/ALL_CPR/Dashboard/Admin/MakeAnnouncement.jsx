@@ -42,7 +42,7 @@ export default function MakeAnnouncement() {
       const response = await secureApi.post("/announcements", values);
       if (response.data.insertedId) {
         toast.success("Announcement created successfully");
-        setTimeout(() => onClose(), 3000);
+        setTimeout(() => onClose(), 2000);
         reset();
       }
     } catch (error) {

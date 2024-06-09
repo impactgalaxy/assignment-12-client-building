@@ -26,7 +26,6 @@ export default function Apartment({ apartment }) {
     _id,
     apartment_booked,
   } = apartment || {};
-  console.log(apartment_booked, _id);
   return (
     <>
       <Card maxW="sm">

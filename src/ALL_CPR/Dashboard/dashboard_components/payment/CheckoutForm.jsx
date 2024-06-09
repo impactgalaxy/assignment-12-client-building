@@ -20,7 +20,6 @@ export default function CheckoutForm({ month, clientSecret, onClose }) {
     setIsLoading(true);
     // Block native form submission.
     event.preventDefault();
-    console.log(month);
 
     if (!stripe || !elements) {
       setIsLoading(false);
@@ -40,7 +39,7 @@ export default function CheckoutForm({ month, clientSecret, onClose }) {
     }
 
     // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
@@ -48,7 +47,6 @@ export default function CheckoutForm({ month, clientSecret, onClose }) {
     if (error) {
       setIsLoading(false);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
       try {
         const obj = await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
@@ -73,12 +71,13 @@ export default function CheckoutForm({ month, clientSecret, onClose }) {
 
           toast.success("Payment successful");
 
-          const paymentHistory = await secureApi.put("/payment-history", {
-            history,
-          });
+          const paymentHistory = await secureApi.post(
+            "/payment-history",
+            history
+          );
 
           if (paymentHistory.data.insertedId) {
-            navigate("payment-history");
+            navigate("/dashboard/payment-history");
             setTimeout(() => {
               onClose();
             }, 1500);

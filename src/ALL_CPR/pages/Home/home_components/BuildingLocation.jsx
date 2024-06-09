@@ -4,6 +4,9 @@ import "leaflet/dist/leaflet.css";
 export default function BuildingLocation() {
   return (
     <div className="py-4">
+      <h1 className="text-center text-2xl py-3">
+        Get your location by google map
+      </h1>
       <MapContainer
         center={[23.807103, 90.3586455]}
         zoom={100}

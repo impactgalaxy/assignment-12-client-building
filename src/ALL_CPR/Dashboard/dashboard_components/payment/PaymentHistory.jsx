@@ -14,23 +14,26 @@ const TABLE_HEAD = [
   "Transactions id",
 ];
 export default function PaymentHistory() {
-  const [value, setValue] = useState("");
-
+  const [month, setMonth] = useState("");
   const secureApi = useAxiosSecure();
+  const { user, loading } = useAuth();
+
   const searchVal = useRef();
-  const { user } = useAuth();
   const { data: paymentHistory = [], isLoading } = useQuery({
-    queryKey: ["paymentHistory", value],
+    enabled: !loading,
+    queryKey: ["paymentHistory", month],
     queryFn: async () => {
       const history = await secureApi.get(
-        `/payment-history?uid=${user?.uid}&month=${value}`
+        `/payment-history?uid=${user?.uid}&month=${month}`
       );
       return history.data;
     },
   });
 
   if (isLoading) return <Loading></Loading>;
-
+  const handleSearch = () => {
+    setMonth(searchVal.current.value);
+  };
   return (
     <Card className="h-full w-full overflow-scroll py-5">
       <h1>Payment History</h1>
@@ -38,7 +41,6 @@ export default function PaymentHistory() {
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
             <button
-              onClick={() => setValue(searchVal.current.value)}
               type="button"
               title="Search"
               className="p-1 focus:outline-none focus:ring">
@@ -51,7 +53,7 @@ export default function PaymentHistory() {
             </button>
           </span>
           <input
-            type="search"
+            type="text"
             ref={searchVal}
             name="Search"
             placeholder="Search by month name"
@@ -59,15 +61,15 @@ export default function PaymentHistory() {
           />
         </div>
         <button
-          onClick={() => setValue(searchVal.current.value)}
+          onClick={handleSearch}
           type="button"
-          className="hidden px-6 py-2 font-semibold rounded lg:block text-black">
+          className="px-6 py-2 font-semibold rounded text-black">
           Search
         </button>
       </div>
       {paymentHistory.length === 0 ? (
         <h1 className="text-2xl text-center">
-          No payment available for {`"${value}"`}
+          No payment available for {month == "" ? " " : `"${month}"`}
         </h1>
       ) : (
         <table className="w-full min-w-max table-auto text-left border">
@@ -118,7 +120,7 @@ export default function PaymentHistory() {
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {amount}
+                        ${amount / 100}
                       </Typography>
                     </td>
                     <td className={classes}>

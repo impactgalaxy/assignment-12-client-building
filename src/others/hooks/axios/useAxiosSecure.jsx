@@ -2,15 +2,14 @@ import axios from "axios";
 import { useEffect } from "react";
 import useAuth from "../useAuth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+const axiosSecure = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
 
 export default function useAxiosSecure() {
   const { logOut } = useAuth();
   const navigate = useNavigate();
-
-  const axiosSecure = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    withCredentials: true,
-  });
 
   useEffect(() => {
     // Request interceptor
@@ -18,8 +17,6 @@ export default function useAxiosSecure() {
       (config) => {
         const token = localStorage.getItem("token");
         config.headers.authorization = `Bearer ${token}`;
-        // You can modify the request config before sending the request
-        console.log("Request:", config);
         return config;
       },
       (error) => {
@@ -27,12 +24,11 @@ export default function useAxiosSecure() {
       }
     );
 
-    // Response interceptor
     const responseInterceptor = axiosSecure.interceptors.response.use(
       (response) => {
         // Modify response data before resolving
         // For example, parse JSON response
-        console.log("Yes I check this");
+
         return response;
       },
       (error) => {
@@ -45,10 +41,9 @@ export default function useAxiosSecure() {
               navigate("/");
             })
             .then((err) => {
-              console.log(err);
+              toast.error(err.code.split("/")[1]);
             });
         }
-        console.error("Response Error:", status);
 
         // Log out the user if the error status is 401 (unauthorized)
         // if (error.response && error.response.status === 401) {

@@ -12,10 +12,12 @@ import Marquee from "react-fast-marquee";
 import useUserCollection from "../../../others/hooks/useUserCollection";
 import Loading from "../../components/shared_components/Loading";
 import { Link } from "react-router-dom";
+import useAdmin from "../../../others/hooks/useAdmin";
 
 export default function DashHome() {
   const { users, isLoading, totalMember, generalUser, userRole } =
     useUserCollection();
+  const { isAdmin } = useAdmin();
 
   if (isLoading) return <Loading></Loading>;
 
@@ -62,7 +64,7 @@ export default function DashHome() {
           </Card>
         )}
         <div className="flex items-center gap-3 justify-center flex-col md:flex-row flex-wrap">
-          {userRole && userRole?.role === "admin" && (
+          {isAdmin && (
             <>
               <Card
                 align="center"

@@ -44,7 +44,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/apartment-agreement/:id",
-        element: <ApartmentAgreement />,
+        element: (
+          <PrivateRoute>
+            <ApartmentAgreement />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -106,11 +110,19 @@ const router = createBrowserRouter([
       },
       {
         path: "make-payment",
-        element: <MakePayment />,
+        element: (
+          <PrivateRoute>
+            <MakePayment />
+          </PrivateRoute>
+        ),
       },
       {
         path: "payment-history",
-        element: <PaymentHistory />,
+        element: (
+          <PrivateRoute>
+            <PaymentHistory />
+          </PrivateRoute>
+        ),
       },
     ],
   },

@@ -18,6 +18,7 @@ import useAuth from "../../../others/hooks/useAuth";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import sendMail from "../../../others/helpers/sendMail";
+import useAdmin from "../../../others/hooks/useAdmin";
 
 export default function ApartmentAgreement() {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ export default function ApartmentAgreement() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams();
   const commonApi = useAxiosCommon();
+  const { isAdmin } = useAdmin();
 
   useEffect(() => {
     setTimeout(() => onOpen(), 2500);
@@ -50,7 +52,7 @@ export default function ApartmentAgreement() {
   } = agreement || {};
 
   const handleAgreement = async () => {
-    if (user?.uid === import.meta.env.VITE_AD_UID) {
+    if (isAdmin) {
       return toast.error("Admin can not agreement request");
     }
     setLoading(true);

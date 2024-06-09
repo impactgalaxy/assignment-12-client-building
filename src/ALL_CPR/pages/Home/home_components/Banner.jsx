@@ -9,9 +9,6 @@ import { useState } from "react";
 export default function Banner() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  // if (!thumbsSwiper) return <p>Loading</p>;
-
-  console.log("thums swiper", thumbsSwiper);
   return (
     <>
       <Swiper

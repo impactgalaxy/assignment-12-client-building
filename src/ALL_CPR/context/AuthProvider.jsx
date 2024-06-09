@@ -53,16 +53,15 @@ export default function AuthProvider({ children }) {
         const response = await commonApi.post("/jwt", userInfo);
         if (response.data.token) {
           localStorage.setItem("token", response.data.token);
+          setLoading(false);
         }
       } else {
         localStorage.removeItem("token");
+        setLoading(false);
       }
-      setLoading(false);
     });
     return () => unsubscribe();
-  }, []);
-
-  console.log("logged", user);
+  }, [commonApi]);
 
   const $info = {
     user,
