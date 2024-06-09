@@ -76,7 +76,7 @@ export default function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={$info}>
       {children}
-      <Toaster position="center"></Toaster>
+      <Toaster position="top-center"></Toaster>
     </AuthContext.Provider>
   );
 }

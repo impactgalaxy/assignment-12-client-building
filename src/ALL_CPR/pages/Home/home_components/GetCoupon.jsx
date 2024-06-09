@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 import useAuth from "../../../../others/hooks/useAuth";
-import useUserCollection from "../../../../others/hooks/useUserCollection";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -17,7 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import Loading from "../../../components/shared_components/Loading";
+import useRole from "../../../../others/hooks/useRole";
 
 export default function GetCoupon() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,9 +27,8 @@ export default function GetCoupon() {
   // const [showCodeBtn, setShowCodeBtn] = useState(false)
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { users, isLoading } = useUserCollection();
+  const { userRole } = useRole();
 
-  const isMember = users.find((u) => u.uid === user?.uid);
   const { data: totalCoupon = {} } = useQuery({
     queryKey: ["count-coupon"],
     queryFn: async () => {
@@ -38,18 +36,19 @@ export default function GetCoupon() {
       return response.data;
     },
   });
-  if (isLoading) return <Loading></Loading>;
 
   const handleGetCoupon = async () => {
     setCouponLoading(true);
     // setShowCodeBtn(true);
-    const generateRandomId = Math.floor(
-      Math.random() * totalCoupon.result + 1
-    ).toString();
+
     if (!user) {
       return toast.error("Please login first to pick coupon");
     }
-    if (isMember.role !== "member") {
+
+    const generateRandomId = Math.floor(
+      Math.random() * totalCoupon.result + 1
+    ).toString();
+    if (userRole !== "member") {
       return Swal.fire({
         icon: "warning",
         showCancelButton: true,
@@ -92,7 +91,6 @@ export default function GetCoupon() {
           </p>
           <div className="flex flex-wrap justify-center gap-5">
             <button
-              disabled={isMember && isMember.generate_coupon}
               type="button"
               className=" btn btn-accent"
               onClick={handleGetCoupon}>
@@ -101,11 +99,10 @@ export default function GetCoupon() {
             <button type="button" className="btn-outline btn">
               Condition
             </button>
-            {myCouponCode?.uid && <button onClick={onOpen}>Show code</button>}
           </div>
           {couponLoading && (
-            <div className="flex items-center justify-center h-10 p-4">
-              <h1 className="text-3xl ">
+            <div className="flex items-center justify-center h-10 p-5">
+              <h1 className="text-2xl ">
                 Generating coupon code please wait...
               </h1>
             </div>

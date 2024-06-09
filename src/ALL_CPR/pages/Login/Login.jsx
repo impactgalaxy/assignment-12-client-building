@@ -112,7 +112,6 @@ export default function Login() {
           return;
         } else {
           const response = await commonApi.post("/create-users", userDoc);
-          console.log(response);
           if (response.data.insertedId) {
             await sendMail(res.user.email);
           }

@@ -16,7 +16,6 @@ export default function useRole() {
   });
 
   if (isLoading) return <Loading></Loading>;
-  console.log(userRole);
 
   return { userRole };
 }

@@ -9,7 +9,6 @@ export default function MyProfile() {
   const { user } = useAuth();
   const { isAdmin } = useAdmin();
   const { userRole: role } = useRole();
-  console.log("isAdmin", isAdmin, "isUser", role);
 
   return (
     <>

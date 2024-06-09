@@ -59,12 +59,10 @@ export default function Register() {
         };
         await updateNamePhoto(name, image_Url);
         toast.success("Registration successful");
-        // const result = await sendMail(email);
-        // console.log(result);
+
         const response = await commonApi.post("/create-users", userDoc);
         if (response.data.insertedId) {
-          const re = await sendMail(email);
-          console.log(re);
+          await sendMail(email);
         }
       }
     } catch (error) {

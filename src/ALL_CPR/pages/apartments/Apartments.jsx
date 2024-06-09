@@ -11,7 +11,7 @@ export default function Apartments() {
   const fetchApartments = async () => {
     const response = await commonApi.get(
       `/apartments?pageNumber=${pageNumber}`
-    ); // Replace with your endpoint
+    );
     return response.data;
   };
   const { data: apartments, isLoading } = useQuery({
@@ -20,7 +20,7 @@ export default function Apartments() {
   });
 
   const countApartments = async () => {
-    const response = await commonApi.get("/apartmentsCount"); // Replace with your endpoint
+    const response = await commonApi.get("/apartmentsCount");
     return response.data;
   };
   const { data: apartmentsLength, isLoading: countLoader } = useQuery({
@@ -39,7 +39,6 @@ export default function Apartments() {
   if (isLoading) return <Loading></Loading>;
   return (
     <div>
-      <h1>This is apartment house</h1>
       <div className="container mx-auto p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4">
         {apartments.map((apartment) => (
           <Apartment apartment={apartment} key={apartment._id}></Apartment>

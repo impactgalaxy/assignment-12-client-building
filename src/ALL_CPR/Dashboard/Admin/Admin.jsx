@@ -39,7 +39,7 @@ export default function Admin() {
     },
   ];
   return (
-    <section className="p-6 dark:bg-gray-100 dark:text-gray-800">
+    <section className="p-2 lg:p-6 dark:bg-gray-100 dark:text-gray-800">
       <div className="container mx-auto grid justify-center grid-cols-2 text-center lg:grid-cols-3">
         <div className="flex flex-col justify-start m-2 lg:m-6">
           <p className="text-4xl font-bold leading-none lg:text-6xl">

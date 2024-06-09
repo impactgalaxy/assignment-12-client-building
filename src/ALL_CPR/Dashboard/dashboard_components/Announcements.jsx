@@ -6,7 +6,6 @@ import { formatDistance } from "date-fns";
 export default function Announcements() {
   const { announcements, isLoading } = useAnnouncement();
   if (isLoading) return <Loading></Loading>;
-  console.log(announcements);
   return (
     <div className="space-y-5 p-5">
       <h1 className="text-2xl font-bold">Announcement from admin</h1>

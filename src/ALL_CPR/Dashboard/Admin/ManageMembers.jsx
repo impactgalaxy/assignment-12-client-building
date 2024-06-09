@@ -43,8 +43,8 @@ export default function ManageMembers() {
     });
   };
   // handle send email
-  const handleSendMessage = (email) => {
-    console.log(email);
+  const handleSendMessage = () => {
+    toast.error("Service unavailable");
   };
   return (
     <Card className="h-full w-full overflow-scroll py-5">
