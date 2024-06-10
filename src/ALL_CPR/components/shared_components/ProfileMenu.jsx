@@ -215,14 +215,16 @@ export function ComplexNavbar() {
             alt=""
             className="h-10 w-10 object-cover block m-auto"
           />
-          <Text
-            bgGradient="linear(to-l, #7928CA, #FF0080)"
-            bgClip="text"
-            fontSize="2xl"
-            textAlign="center"
-            fontWeight="extrabold">
-            Build Nest
-          </Text>
+          <Link to="/">
+            <Text
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              bgClip="text"
+              fontSize="2xl"
+              textAlign="center"
+              fontWeight="extrabold">
+              Build Nest
+            </Text>
+          </Link>
         </Flex>
         <div className="hidden md:block">
           <NavList />

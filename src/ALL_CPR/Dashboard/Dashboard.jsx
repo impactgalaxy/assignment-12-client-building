@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import useAuth from "../../others/hooks/useAuth";
@@ -82,14 +82,16 @@ export default function Dashboard() {
         </div>
         <Flex alignItems="center" gap="10px">
           <img src={logo} alt="" className="h-10 w-10 object-cover" />
-          <Text
-            bgGradient="linear(to-l, #7928CA, #FF0080)"
-            bgClip="text"
-            fontSize="2xl"
-            textAlign="center"
-            fontWeight="extrabold">
-            Build Nest
-          </Text>
+          <Link to="/">
+            <Text
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              bgClip="text"
+              fontSize="2xl"
+              textAlign="center"
+              fontWeight="extrabold">
+              Build Nest
+            </Text>
+          </Link>
         </Flex>
         <Flex alignItems="center" gap="10px">
           <Avatar

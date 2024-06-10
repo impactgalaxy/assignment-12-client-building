@@ -68,7 +68,7 @@ For any questions, feedback, or support inquiries, please contact us at _nurpala
 
 # Project Link
 
-[Build Nest](https://assignment-12-buildNest.web.app) or https://assignment-12-buildNest.web.app
+[Build Nest](https://assignment-12-buildnest.web.app) or https://assignment-12-buildnest.web.app
 
 ## To explore admin functionality please login with admin email and admin password:
 
