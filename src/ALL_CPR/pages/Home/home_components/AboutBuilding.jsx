@@ -5,7 +5,7 @@ export default function AboutBuilding() {
   const [state, setState] = useState(0);
   return (
     <>
-      <section className="py-8 bg-gray-100 text-white bg-[url('https://i.ibb.co/1X2Tph6/simone-hutsch-l8fy-K9-RS-OU-unsplash.jpg')] bg-center bg-no-repeat bg-cover rounded-2xl">
+      <section className="py-8 my-8 bg-gray-100 text-white bg-[url('https://i.ibb.co/1X2Tph6/simone-hutsch-l8fy-K9-RS-OU-unsplash.jpg')] bg-center bg-no-repeat bg-cover rounded-2xl">
         <Box className="opacity-60" bg="linear-gradient(#123456, #123123)">
           <div className="p-4 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
             <h2 className="text-2xl font-bold leading-none sm:text-4xl">
@@ -13,8 +13,8 @@ export default function AboutBuilding() {
             </h2>
             <p className="px-8 my-4">It&apos;s very simple</p>
           </div>
-          <div className="grid grid-cols-5 p-4 md:p-8">
-            <div className="flex justify-center px-4 col-span-full md:col-span-1 md:flex-col md:justify-start md:items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:p-8">
+            <div className="flex  px-4 w-full md:w-40 overflow-x-scroll md:overflow-hidden  md:flex-col">
               <button
                 onClick={() => setState(0)}
                 className={`p-2 ${
@@ -48,14 +48,14 @@ export default function AboutBuilding() {
                 className={`p-2 ${
                   state === 4 ? "border-deep-orange-400" : ""
                 } border-b-2 md:border-l-2 md:border-b-0 md:py-3 dark:border-gray-700 dark:text-gray-600`}>
-                Building 5
+                Building
               </button>
             </div>
-            <div className="grid gap-12 py-4 text-center sm:grid-cols-2 col-span-full md:col-span-4 md:text-left">
+            <div className="relative *:absolute *:top-0 *:left-1/2 *:-translate-x-1/2 h-80">
               <div
                 className={` ${
                   state === 0 ? "visible" : "invisible"
-                } flex flex-col items-center justify-center space-y-3 md:justify-start md:items-start`}>
+                } flex flex-col items-center justify-center gap-4 w-full`}>
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -74,7 +74,7 @@ export default function AboutBuilding() {
               <div
                 className={` ${
                   state === 1 ? "visible" : "invisible"
-                } flex flex-col items-center justify-center space-y-3 md:justify-start md:items-start`}>
+                } flex flex-col items-center justify-center gap-4 w-full`}>
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -88,12 +88,15 @@ export default function AboutBuilding() {
                     d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
                 </svg>
                 <h5 className="text-xl font-semibold">Dhaka</h5>
-                <p>Dhaka is the capital city of Bangladesh.</p>
+                <p>
+                  Then first you should closer look at Dhaka. Dhaka is the
+                  capital city of Bangladesh.
+                </p>
               </div>
               <div
                 className={` ${
                   state === 2 ? "visible" : "invisible"
-                } flex flex-col items-center justify-center space-y-3 md:justify-start md:items-start`}>
+                } flex flex-col items-center justify-center gap-4 w-full`}>
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -107,12 +110,15 @@ export default function AboutBuilding() {
                     d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
                 </svg>
                 <h5 className="text-xl font-semibold">Mirpur</h5>
-                <p>Mirpur is the sub district of Dhaka city.</p>
+                <p>
+                  Next step is further more to look at mirpur. Mirpur is the sub
+                  district of Dhaka city.
+                </p>
               </div>
               <div
                 className={` ${
                   state === 3 ? "visible" : "invisible"
-                } flex flex-col items-center justify-center space-y-3 md:justify-start md:items-start`}>
+                } flex flex-col items-center justify-center gap-4 w-full`}>
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -128,12 +134,15 @@ export default function AboutBuilding() {
                 <h5 className="text-xl font-semibold">
                   National housing complex
                 </h5>
-                <p>The apartment series location in banani</p>
+                <p>
+                  The apartment series location at Block-H, Road-5, Near
+                  Sher-E-Bangla National Cricket Stadium, Mirpur-2
+                </p>
               </div>
               <div
                 className={` ${
                   state === 4 ? "visible" : "invisible"
-                } flex flex-col items-center justify-center space-y-3 md:justify-start md:items-start`}>
+                } flex flex-col items-center justify-center gap-4 w-full`}>
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -146,8 +155,13 @@ export default function AboutBuilding() {
                     strokeWidth="2"
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
-                <h5 className="text-xl font-semibold">Building number</h5>
-                <p>005</p>
+                <h5 className="text-xl font-semibold">
+                  Building and building number
+                </h5>
+                <p>
+                  Finally you got the building.Building number of{" "}
+                  <span className="font-bold">005</span>
+                </p>
               </div>
             </div>
           </div>

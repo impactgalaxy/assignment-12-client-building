@@ -1,7 +1,5 @@
 import toast from "react-hot-toast";
 import useAuth from "../../../../others/hooks/useAuth";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../../../../others/hooks/axios/useAxiosCommon";
 import useAxiosSecure from "../../../../others/hooks/axios/useAxiosSecure";
@@ -16,7 +14,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import useRole from "../../../../others/hooks/useRole";
 
 export default function GetCoupon() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,9 +22,7 @@ export default function GetCoupon() {
   const [myCouponCode, setMyCouponCode] = useState({});
   const [couponLoading, setCouponLoading] = useState(false);
   // const [showCodeBtn, setShowCodeBtn] = useState(false)
-  const navigate = useNavigate();
   const { user } = useAuth();
-  const { userRole } = useRole();
 
   const { data: totalCoupon = {} } = useQuery({
     queryKey: ["count-coupon"],
@@ -38,31 +33,14 @@ export default function GetCoupon() {
   });
 
   const handleGetCoupon = async () => {
-    setCouponLoading(true);
-    // setShowCodeBtn(true);
-
     if (!user) {
       return toast.error("Please login first to pick coupon");
     }
 
+    setCouponLoading(true);
     const generateRandomId = Math.floor(
       Math.random() * totalCoupon.result + 1
     ).toString();
-    if (userRole !== "member") {
-      return Swal.fire({
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        title: "Not for user",
-        text: "To get coupon become member first",
-        confirmButtonText: "Get, membership!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/apartments");
-        }
-      });
-    }
     try {
       const response = await secureApi.get(
         `/getMyCoupon?id=${generateRandomId}&uid=${user.uid}`
@@ -91,6 +69,7 @@ export default function GetCoupon() {
           </p>
           <div className="flex flex-wrap justify-center gap-5">
             <button
+              disabled={couponLoading}
               type="button"
               className=" btn btn-accent"
               onClick={handleGetCoupon}>
@@ -101,10 +80,15 @@ export default function GetCoupon() {
             </button>
           </div>
           {couponLoading && (
-            <div className="flex items-center justify-center h-10 p-5">
-              <h1 className="text-2xl ">
-                Generating coupon code please wait...
+            <div className="flex items-center justify-center gap-1 p-5">
+              <h1 className="text-sm md:text-2xl ">
+                Generating coupon code please wait
               </h1>
+              <div className="flex items-end justify-center space-x-2 h-5">
+                <div className="w-2 h-2 rounded-full animate-pulse bg-indigo-900"></div>
+                <div className="w-2 h-2 rounded-full animate-pulse bg-indigo-900"></div>
+                <div className="w-2 h-2 rounded-full animate-pulse bg-indigo-900"></div>
+              </div>
             </div>
           )}
         </div>

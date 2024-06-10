@@ -14,7 +14,6 @@ import {
 import {
   CubeTransparentIcon,
   UserCircleIcon,
-  CodeBracketSquareIcon,
   ChevronDownIcon,
   Cog6ToothIcon,
   InboxArrowDownIcon,
@@ -161,11 +160,6 @@ const navListItems = [
     label: "Apartment",
     icon: CubeTransparentIcon,
     link: "/apartments",
-  },
-  {
-    label: "Docs",
-    icon: CodeBracketSquareIcon,
-    link: "/docs",
   },
 ];
 

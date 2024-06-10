@@ -64,7 +64,7 @@ export default function Dashboard() {
           drawer
             ? "-translate-x-full w-0 transition-all"
             : "transition-all w-full lg:max-w-72"
-        } shadow-2xl  lg:h-screen relative p-4 flex flex-col overflow-y-auto`}>
+        } shadow lg:h-screen relative p-4 flex flex-col overflow-y-auto`}>
         <div
           className="absolute top-0 right-0 p-2 z-10 cursor-pointer"
           title="Hide side bar">
@@ -97,123 +97,127 @@ export default function Dashboard() {
           />
           <Text fontWeight="bold">{user?.displayName}</Text>
         </Flex>
-        <div className={`lg:block ${block ? "block" : "hidden"}`}>
-          <Box className="flex-grow border">
-            <NavLink to="my-profile" style={style}>
-              <Button
-                justifyContent="flex-start"
-                w="100%"
-                height="48px"
-                leftIcon={<FaUser />}>
-                My Profile
-              </Button>
-            </NavLink>
-            {/* Admin nav link start*/}
-            {isAdmin && (
-              <div>
-                <NavLink to="manage-members" style={style}>
-                  <Button
-                    justifyContent="flex-start"
-                    w="100%"
-                    height="48px"
-                    leftIcon={<IoIosPeople />}>
-                    Manage Members
-                  </Button>
-                </NavLink>
-                <NavLink to="make-announcement" style={style}>
+        {isAdmin == undefined || userRole == undefined ? (
+          <Loading></Loading>
+        ) : (
+          <div className={`lg:block ${block ? "block" : "hidden"}`}>
+            <Box>
+              <NavLink to="my-profile" style={style}>
+                <Button
+                  justifyContent="flex-start"
+                  w="100%"
+                  height="48px"
+                  leftIcon={<FaUser />}>
+                  My Profile
+                </Button>
+              </NavLink>
+              {/* Admin nav link start*/}
+              {isAdmin && (
+                <div>
+                  <NavLink to="manage-members" style={style}>
+                    <Button
+                      justifyContent="flex-start"
+                      w="100%"
+                      height="48px"
+                      leftIcon={<IoIosPeople />}>
+                      Manage Members
+                    </Button>
+                  </NavLink>
+                  <NavLink to="make-announcement" style={style}>
+                    <Button
+                      justifyContent="flex-start"
+                      w="100%"
+                      height="48px"
+                      leftIcon={<TfiAnnouncement />}>
+                      Make Announcement
+                    </Button>
+                  </NavLink>
+                  <NavLink to="agreement-request" style={style}>
+                    <Button
+                      justifyContent="flex-start"
+                      w="100%"
+                      height="48px"
+                      leftIcon={<FaRegQuestionCircle />}>
+                      Agreement Request{" "}
+                      {newRequest.length > 0 && (
+                        <sup className=" px-2 text-red-400">
+                          {newRequest.length}
+                        </sup>
+                      )}
+                    </Button>
+                  </NavLink>
+                  <NavLink to="manage-coupons" style={style}>
+                    <Button
+                      justifyContent="flex-start"
+                      w="100%"
+                      height="48px"
+                      leftIcon={<RiCoupon2Line />}>
+                      Manage Coupons
+                    </Button>
+                  </NavLink>
+                </div>
+              )}
+
+              {/* Admin nav link end */}
+
+              {/* member nav link start*/}
+              {userRole === "member" && (
+                <div>
+                  <NavLink to="make-payment" style={style}>
+                    <Button
+                      justifyContent="flex-start"
+                      w="100%"
+                      height="48px"
+                      leftIcon={<RiSecurePaymentFill />}>
+                      Make Payment
+                    </Button>
+                  </NavLink>
+                  <NavLink to="payment-history" style={style}>
+                    <Button
+                      justifyContent="flex-start"
+                      w="100%"
+                      height="48px"
+                      leftIcon={<FaHistory />}>
+                      Payment History
+                    </Button>
+                  </NavLink>
+                </div>
+              )}
+              {/* member nav link end */}
+
+              {isAdmin || (
+                <NavLink to="announcements" style={style}>
                   <Button
                     justifyContent="flex-start"
                     w="100%"
                     height="48px"
                     leftIcon={<TfiAnnouncement />}>
-                    Make Announcement
+                    Announcements
                   </Button>
                 </NavLink>
-                <NavLink to="agreement-request" style={style}>
-                  <Button
-                    justifyContent="flex-start"
-                    w="100%"
-                    height="48px"
-                    leftIcon={<FaRegQuestionCircle />}>
-                    Agreement Request{" "}
-                    {newRequest.length > 0 && (
-                      <sup className=" px-2 text-red-400">
-                        {newRequest.length}
-                      </sup>
-                    )}
-                  </Button>
-                </NavLink>
-                <NavLink to="manage-coupons" style={style}>
-                  <Button
-                    justifyContent="flex-start"
-                    w="100%"
-                    height="48px"
-                    leftIcon={<RiCoupon2Line />}>
-                    Manage Coupons
-                  </Button>
-                </NavLink>
-              </div>
-            )}
-
-            {/* Admin nav link end */}
-
-            {/* member nav link start*/}
-            {userRole === "member" && (
-              <div>
-                <NavLink to="make-payment" style={style}>
-                  <Button
-                    justifyContent="flex-start"
-                    w="100%"
-                    height="48px"
-                    leftIcon={<RiSecurePaymentFill />}>
-                    Make Payment
-                  </Button>
-                </NavLink>
-                <NavLink to="payment-history" style={style}>
-                  <Button
-                    justifyContent="flex-start"
-                    w="100%"
-                    height="48px"
-                    leftIcon={<FaHistory />}>
-                    Payment History
-                  </Button>
-                </NavLink>
-              </div>
-            )}
-            {/* member nav link end */}
-
-            {isAdmin || (
-              <NavLink to="announcements" style={style}>
-                <Button
-                  justifyContent="flex-start"
-                  w="100%"
-                  height="48px"
-                  leftIcon={<TfiAnnouncement />}>
-                  Announcements
-                </Button>
-              </NavLink>
-            )}
-          </Box>
-          <Box>
-            <Button
-              justifyContent="flex-start"
-              w="100%"
-              height="48px"
-              leftIcon={<FcSettings />}>
-              Settings
-            </Button>
-            <Button
-              justifyContent="flex-start"
-              w="100%"
-              height="48px"
-              onClick={handleLogout}
-              leftIcon={<VscSignOut />}>
-              Logout
-            </Button>
-          </Box>
-        </div>
+              )}
+            </Box>
+            <Box>
+              <Button
+                justifyContent="flex-start"
+                w="100%"
+                height="48px"
+                leftIcon={<FcSettings />}>
+                Settings
+              </Button>
+              <Button
+                justifyContent="flex-start"
+                w="100%"
+                height="48px"
+                onClick={handleLogout}
+                leftIcon={<VscSignOut />}>
+                Logout
+              </Button>
+            </Box>
+          </div>
+        )}
       </section>
-      <div className="flex-1 border min-h-screen relative overflow-x-auto">
+      <div className="flex-1 min-h-screen relative overflow-x-auto">
         {drawer && (
           <div
             className="absolute top-0 left-50 p-2 z-10 cursor-pointer"

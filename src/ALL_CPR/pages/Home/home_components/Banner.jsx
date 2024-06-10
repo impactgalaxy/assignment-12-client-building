@@ -38,6 +38,24 @@ export default function Banner() {
         <SwiperSlide>
           <img src="https://i.ibb.co/9cF6Qz6/giulia-may-k-HAe-Cx-Tm-XDI-unsplash.jpg" />
         </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/WzRKCX5/build-1.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/1X2Tph6/simone-hutsch-l8fy-K9-RS-OU-unsplash.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/9cF6Qz6/giulia-may-k-HAe-Cx-Tm-XDI-unsplash.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/WzRKCX5/build-1.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/1X2Tph6/simone-hutsch-l8fy-K9-RS-OU-unsplash.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/9cF6Qz6/giulia-may-k-HAe-Cx-Tm-XDI-unsplash.jpg" />
+        </SwiperSlide>
       </Swiper>
       <Swiper
         spaceBetween={10}
@@ -52,6 +70,24 @@ export default function Banner() {
         }}
         modules={[FreeMode, Navigation, Thumbs, Autoplay]}
         className="mySwiper swiper-1 lg:w-1/2 mx-auto mt-4">
+        <SwiperSlide>
+          <img src="https://i.ibb.co/WzRKCX5/build-1.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/1X2Tph6/simone-hutsch-l8fy-K9-RS-OU-unsplash.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/9cF6Qz6/giulia-may-k-HAe-Cx-Tm-XDI-unsplash.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/WzRKCX5/build-1.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/1X2Tph6/simone-hutsch-l8fy-K9-RS-OU-unsplash.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="https://i.ibb.co/9cF6Qz6/giulia-may-k-HAe-Cx-Tm-XDI-unsplash.jpg" />
+        </SwiperSlide>
         <SwiperSlide>
           <img src="https://i.ibb.co/WzRKCX5/build-1.jpg" />
         </SwiperSlide>

@@ -1,5 +1,7 @@
 import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import logo from "../../../assets/logo.png";
+import { Box, Text } from "@chakra-ui/react";
 
 const SITEMAP = [
   {
@@ -26,6 +28,17 @@ export function FooterWithSitemap() {
   return (
     <footer className="relative w-full">
       <div className="mx-auto w-full max-w-7xl px-8">
+        <Box className="flex items-center gap-2">
+          <img src={logo} alt="" className="h-10 w-10 object-cover block" />
+          <Text
+            bgGradient="linear(to-l, #7928CA, #FF0080)"
+            bgClip="text"
+            fontSize="2xl"
+            textAlign="center"
+            fontWeight="extrabold">
+            Build Nest
+          </Text>
+        </Box>
         <div className="mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
           {SITEMAP.map(({ title, links }, key) => (
             <div key={key} className="w-full">
