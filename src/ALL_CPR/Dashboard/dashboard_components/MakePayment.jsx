@@ -24,6 +24,7 @@ import CheckoutForm from "./payment/CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import useAuth from "../../../others/hooks/useAuth";
 import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
@@ -58,6 +59,9 @@ export default function MakePayment() {
   };
   return (
     <div className="p-4 lg:p-10">
+      <Helmet>
+        <title>Dashboard | Payment</title>
+      </Helmet>
       <h1 className="text-2xl lg:3xl">Pay your payment </h1>
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 border-x border-t">
         <div className="p-5 ">

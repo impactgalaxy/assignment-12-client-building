@@ -4,6 +4,7 @@ import Loading from "../../components/shared_components/Loading";
 import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const TABLE_HEAD = ["Name", "Email", "Membership Date", "Send Mail", ""];
 
@@ -48,6 +49,9 @@ export default function ManageMembers() {
   };
   return (
     <Card className="h-full w-full overflow-scroll py-5">
+      <Helmet>
+        <title>Admin | manage members</title>
+      </Helmet>
       <h1>Manage members</h1>
       {totalMember.length === 0 ? (
         <h1 className="text-2xl text-center">No member available</h1>

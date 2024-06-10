@@ -21,6 +21,7 @@ import useAuth from "../../../others/hooks/useAuth";
 import uploadImage from "../../../others/helpers/imageUploader";
 import sendMail from "../../../others/helpers/sendMail";
 import useAxiosCommon from "../../../others/hooks/axios/useAxiosCommon";
+import { Helmet } from "react-helmet-async";
 
 export default function Register() {
   const { createUser, updateNamePhoto } = useAuth();
@@ -73,6 +74,9 @@ export default function Register() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Helmet>
+        <title>Build nest | register</title>
+      </Helmet>
       <Box
         className="bg-blue-gray-900 md:w-1/2 mx-auto text-white"
         rounded="50px 0 50px 0"

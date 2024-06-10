@@ -5,6 +5,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import moment from "moment";
 import { useRef, useState } from "react";
 import useAuth from "../../../../others/hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const TABLE_HEAD = [
   "Month",
@@ -36,6 +37,9 @@ export default function PaymentHistory() {
   };
   return (
     <Card className="h-full w-full overflow-scroll py-5">
+      <Helmet>
+        <title>Dashboard | Payment history</title>
+      </Helmet>
       <h1>Payment History</h1>
       <div className="flex items-center justify-center py-4 md:space-x-4 bg-blue-gray-500">
         <div className="relative">

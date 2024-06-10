@@ -3,6 +3,7 @@ import useAxiosCommon from "../../../others/hooks/axios/useAxiosCommon";
 import Loading from "../../components/shared_components/Loading";
 import Apartment from "../../components/apartment/Apartment";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function Apartments() {
   const commonApi = useAxiosCommon();
@@ -39,6 +40,9 @@ export default function Apartments() {
   if (isLoading) return <Loading></Loading>;
   return (
     <div>
+      <Helmet>
+        <title>Build nest | Apartments</title>
+      </Helmet>
       <div className="container mx-auto p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4">
         {apartments.map((apartment) => (
           <Apartment apartment={apartment} key={apartment._id}></Apartment>

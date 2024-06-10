@@ -18,6 +18,7 @@ import useUserCollection from "../../../others/hooks/useUserCollection";
 import useAxiosCommon from "../../../others/hooks/axios/useAxiosCommon";
 import sendMail from "../../../others/helpers/sendMail";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 export default function Login() {
   const { user, logOut } = useAuth();
@@ -126,6 +127,9 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit(handleLogin)}>
+      <Helmet>
+        <title>Build nest | login</title>
+      </Helmet>
       <Box
         className="bg-blue-gray-900 md:w-1/2 mx-auto text-white"
         rounded="50px 0 50px 0"

@@ -5,6 +5,7 @@ import MemberProfile from "./MemberProfile";
 import useAdmin from "../../../others/hooks/useAdmin";
 import Admin from "../Admin/Admin";
 import useRole from "../../../others/hooks/useRole";
+import { Helmet } from "react-helmet-async";
 export default function MyProfile() {
   const { user } = useAuth();
   const { isAdmin } = useAdmin();
@@ -12,6 +13,9 @@ export default function MyProfile() {
 
   return (
     <>
+      <Helmet>
+        <title>Dashboard | profile</title>
+      </Helmet>
       <Flex
         direction="column"
         justifyContent="center"

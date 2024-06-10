@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 export default function ManageCoupons() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -67,6 +68,9 @@ export default function ManageCoupons() {
 
   return (
     <div className="py-5">
+      <Helmet>
+        <title>Admin | manage coupon</title>
+      </Helmet>
       <TableContainer>
         <Table size="sm">
           <Thead>

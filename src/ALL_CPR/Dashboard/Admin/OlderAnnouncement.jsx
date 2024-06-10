@@ -5,6 +5,7 @@ import { Button } from "@chakra-ui/react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 export default function OlderAnnouncement() {
   const { announcements, isLoading, refetch } = useAnnouncement();
@@ -40,6 +41,9 @@ export default function OlderAnnouncement() {
   };
   return (
     <div className="my-14 p-4">
+      <Helmet>
+        <title>Admin | old announcement</title>
+      </Helmet>
       <h1 className="text-2xl">Your announcement</h1>
       <div className="p-4">
         {announcements.map((announce) => (

@@ -2,12 +2,16 @@ import { Box, Text } from "@chakra-ui/react";
 import useAnnouncement from "../../../others/hooks/useAnnouncement";
 import Loading from "../../components/shared_components/Loading";
 import { formatDistance } from "date-fns";
+import { Helmet } from "react-helmet-async";
 
 export default function Announcements() {
   const { announcements, isLoading } = useAnnouncement();
   if (isLoading) return <Loading></Loading>;
   return (
     <div className="space-y-5 p-5">
+      <Helmet>
+        <title>Announcement</title>
+      </Helmet>
       <h1 className="text-2xl font-bold">Announcement from admin</h1>
       {announcements.map((announce) => (
         <Box

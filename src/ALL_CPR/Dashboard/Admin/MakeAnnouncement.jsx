@@ -21,6 +21,7 @@ import useAxiosSecure from "../../../others/hooks/axios/useAxiosSecure";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 export default function MakeAnnouncement() {
   const [value, setValue] = useState("1");
@@ -51,6 +52,9 @@ export default function MakeAnnouncement() {
   };
   return (
     <>
+      <Helmet>
+        <title>Admin | make announcement</title>
+      </Helmet>
       <div className="lg:w-1/2 mx-auto py-10 text-center">
         <h1 className="text-2xl md:text-3xl">
           Make new message to member and user

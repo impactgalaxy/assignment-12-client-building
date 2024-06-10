@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import useAgreementRequest from "../../others/hooks/useAgreementRequest";
 import useAdmin from "../../others/hooks/useAdmin";
 import useRole from "../../others/hooks/useRole";
+import { Helmet } from "react-helmet-async";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -59,6 +60,9 @@ export default function Dashboard() {
   };
   return (
     <section className="flex flex-col lg:flex-row">
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
       <section
         className={`${
           drawer
