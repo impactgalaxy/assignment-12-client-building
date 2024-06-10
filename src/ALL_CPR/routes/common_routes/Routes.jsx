@@ -19,6 +19,7 @@ import AgreementRequest from "../../Dashboard/Admin/AgreementRequest";
 import ManageCoupons from "../../Dashboard/Admin/ManageCoupons";
 import MakePayment from "../../Dashboard/dashboard_components/MakePayment";
 import PaymentHistory from "../../Dashboard/dashboard_components/payment/PaymentHistory";
+import MemberRoute from "../private_routes/MemberRoute";
 
 const router = createBrowserRouter([
   {
@@ -66,11 +67,19 @@ const router = createBrowserRouter([
       },
       {
         path: "my-profile",
-        element: <MyProfile />,
+        element: (
+          <PrivateRoute>
+            <MyProfile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "announcements",
-        element: <Announcements />,
+        element: (
+          <PrivateRoute>
+            <Announcements />
+          </PrivateRoute>
+        ),
       },
       {
         path: "manage-members",
@@ -112,7 +121,9 @@ const router = createBrowserRouter([
         path: "make-payment",
         element: (
           <PrivateRoute>
-            <MakePayment />
+            <MemberRoute>
+              <MakePayment />
+            </MemberRoute>
           </PrivateRoute>
         ),
       },
@@ -120,7 +131,9 @@ const router = createBrowserRouter([
         path: "payment-history",
         element: (
           <PrivateRoute>
-            <PaymentHistory />
+            <MemberRoute>
+              <PaymentHistory />
+            </MemberRoute>
           </PrivateRoute>
         ),
       },
